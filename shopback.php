@@ -17,19 +17,47 @@ function getFormInfo($k) {
   return isset($_POST[$k]) ? htmlspecialchars($_POST[$k]) : null;
 }
 
-$card_type = "";
+//$card_type = ""; ??????????????????????????????
+
+function wrongInfo($error) {
+  echo "The given info is wrong, I'm afraid. <br />";
+  echo "The problem is: ".{$error}."<br />";
+  echo "Please try again, idiot.";
+}
+
+function testCardNumber($v) {
+  $first_char = substr($v, 0, 1);
+  if ($card_type == "visa" AND $first_char != "4") {
+    wrongInfo("A VISA card number should start with 4.");
+  } elseif ($card_type == "master" AND $first_char != "5") {
+    wrongInfo("A MASTERCARD card number should start with 5.");
+  }
+}
+
+function testSecurityCode($v) {
+  if ($v.length != 3 OR $v < 0) {
+    wrongInfo("A security code should be three digits and positive.")
+  }
+}
+
+function testItemQuantity($v) {
+  if ($v < 1 OR strpos($v, ".") !== true) { //Check use of double ==. !!!!!!!!!!!
+    wrongInfo("The quantity of items selected should be a positive integer.")
+  }
+}
+
+$printout = ";"
 
 foreach (array_keys($_POST) as $k) {
   $v = getFormInfo($k);
   if ($k == "cc_number") {
-    $first_char = substr($v, 0, 1);
-    if ($card_type == "visa" and $first_char != "4") {
-      echo "baaaaaaaaaaaaaaaaaaad fooooooooooooooorm";
-    } elseif ($card_type == "master" and $first_char != "5") {
-      echo "baaaaaaaaaaaaaaaaaaaaaaaaaad maaaastercard";
-    } else {
-      echo "suuuuuuccceesssssssss";
-    }
+    testCardNumber($v);
+  }
+  if ($k == "cc_code") {
+    testSecurityCode($v);
+  }
+  if ($k == "item_quantity") {
+    testItemQuantity($v);
   }
   if ($k == "cc_type") {
     if ($v == "visa") {
@@ -38,9 +66,14 @@ foreach (array_keys($_POST) as $k) {
       $card_type = "master";
     }
   }
-  echo "{$k} : {$v}<br />\n";
+  $printout = $printout."{$k} : {$v}<br />\n";
+  //echo "{$k} : {$v}<br />\n";
 }
+
+echo $printout;
+
 ?>
+
 </p>
 
 </body>

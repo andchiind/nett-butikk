@@ -16,7 +16,6 @@ function photoCheck($photo) { // Do we have photos?
   return $result;
 }
 
-
 if (!file_exists(STOCK_FILE_NAME)) {
   die("File not found for read - " . STOCK_FILE_NAME . "\n"); // Script exits.
 }

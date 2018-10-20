@@ -16,6 +16,7 @@ function photoCheck($photo) { // Do we have photos?
   return $result;
 }
 
+
 if (!file_exists(STOCK_FILE_NAME)) {
   die("File not found for read - " . STOCK_FILE_NAME . "\n"); // Script exits.
 }
@@ -86,7 +87,7 @@ foreach(array_keys($stock_list) as $id) {
 
 <br />
 
-<p>Sub-total: <span id="sub_total"></span></p>
+<p>Sub-total: <span type="text" id="sub_total"></span></p>
 
 <p>Delivery charge: <span id="delivery_charge"></span></p>
 

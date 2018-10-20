@@ -29,6 +29,7 @@ function wrongInfo($error) {
   echo $error."<br />";
   echo "Please try again, idiot. <br /><br />";
   $correct_values = false;
+  echo "<form name=\"order\" action=\"shopfront.php\" method=\"POST\"> <input type=\"submit\" value=\"Return to form\" /> </form>";
 }
 
 function testCardNumber($v) {
@@ -52,10 +53,6 @@ function testItemQuantity($v) {
   if ($v < 1 OR strpos($v, ".") !== true) { //Check use of double ==. !!!!!!!!!!!
     wrongInfo("The quantity of items selected should be a positive integer.");
   }
-}
-
-function getStockItemValue($k) {
-
 }
 
 $printout = "";
@@ -94,11 +91,9 @@ foreach (array_keys($_POST) as $k) {
     if ($correct_values AND $v != "" AND $v != NULL AND $v != "0") { //Treat numbers as Strings
       $printout = $printout."{$k} : {$v}<br />\n";
 
-
-
       $itemValue = "<p value=\"getStockItemValue({$k}, \"item_price\");\" />";
       //if ($itemValue != 0 AND $itemValue != NULL AND $itemValue != "") {
-      $printout = $printout." Price of all {$k}'s: {$itemValue}";
+      //$printout = $printout." Price of all {$k}'s: {$itemValue}";
       //}
     }
   }

@@ -1,7 +1,7 @@
- let subTotal = 0;
- let vat = 0;
- let delivery_charge = 0;
- let totalCost = 0;
+let subTotal = 0;
+let vat = 0;
+let delivery_charge = 0;
+let totalCost = 0;
 
 /*
  * item_id: string (id of item)
@@ -38,39 +38,39 @@ function updateLineCost(e, item_id) {
   updateSubTotal(item_id, "stock_item");
 }
 
- function updateSubTotal(element) {
-   var total = 0;
-   for (item_id of document.getElementsByTagName(element)) {
-     //var i = document.getElementById(item_id);
-     //var i = item_id.getElementById("item_price");
+function updateSubTotal(element) {
+ var total = 0;
+ for (item_id of document.getElementsByTagName(element)) {
+   //var i = document.getElementById(item_id);
+   //var i = item_id.getElementById("item_price");
 
-     total = total + getStockItemValue(item_id, "item_price");
-   }
-   this.subTotal = total; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   document.getElementById("sub_total").innerHTML = total.toFixed(2);
+   total = total + getStockItemValue(item_id, "item_price");
  }
+ this.subTotal = total; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ document.getElementById("sub_total").innerHTML = total.toFixed(2);
+}
 
-  // function updateDeliveryCharge() {
-  //
-  // }
-  //
-  // function updateVAT() {
-  //
-  // }
-  //
-  // function updateTotalCost() {
-  //
-  // }
-  //
-   function getTotalCost() {
-     document.getElementById("total_cost").innerHTML = totalCost;
-     return totalCost;
-   }
-  //
-   function getSubTotal() {
-     return subTotal;
-   }
-  //
-   function getVAT() {
-     return vat;
-   }
+// function updateDeliveryCharge() {
+//
+// }
+//
+// function updateVAT() {
+//
+// }
+//
+// function updateTotalCost() {
+//
+// }
+//
+ function getTotalCost() {
+   document.getElementById("total_cost").innerHTML = totalCost;
+   return totalCost;
+ }
+//
+ function getSubTotal() {
+   return subTotal;
+ }
+//
+ function getVAT() {
+   return vat;
+ }

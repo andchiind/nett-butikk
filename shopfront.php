@@ -16,7 +16,6 @@ function photoCheck($photo) { // Do we have photos?
   return $result;
 }
 
-
 if (!file_exists(STOCK_FILE_NAME)) {
   die("File not found for read - " . STOCK_FILE_NAME . "\n"); // Script exits.
 }
@@ -33,8 +32,11 @@ while (($row = fgetcsv($f, STOCK_FILE_LINE_SIZE)) != false) {
     "price" => $row[3]);
   $stock_list[$row[0]] = $stock_item; // Add stock.
 }
+
 fclose($f);
+
 ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -106,25 +108,25 @@ foreach(array_keys($stock_list) as $id) {
 </p>
 
 <p>Credit Card number:
-<input type="text" name="cc_number" pattern="[0-9]{16}" size="16" /></p>
+<input type="text" name="cc_number" pattern="[0-9]{16}" size="16" required/></p>
 
 <p>Name on Credit Card (also the name for delivery):
-<input type="text" name="cc_name" size="80" /></p>
+<input type="text" name="cc_name" size="80" required/></p>
 
 <p>Credit Card security code:
-<input type="text" name="cc_code" pattern="[0-9]{3}" size="3" /></p>
+<input type="text" name="cc_code" pattern="[0-9]{3}" size="3" required/></p>
 
 <p>Delivery street address:
-<input type="text" name="delivery_address" size="128" /></p>
+<input type="text" name="delivery_address" size="128" required/></p>
 
 <p>Delivery postcode:
-<input type="text" name="delivery_postcode" size="40" /></p>
+<input type="text" name="delivery_postcode" size="40" required/></p>
 
 <p>Delivery country:
-<input type="text" name="delivery_country" size="80" /></p>
+<input type="text" name="delivery_country" size="80" required/></p>
 
 <p>Email:
-<input type="email" name="email" /></p>
+<input type="email" name="email" required/></p>
 
 <hr />
 

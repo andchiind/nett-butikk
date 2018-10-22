@@ -84,11 +84,11 @@ foreach(array_keys($stock_list) as $id) {
 
 <p id="sub_total_p">Sub-total: <span type="text" id="sub_total"></span></p>
 
-<p>Delivery charge: <span id="delivery_charge"></span></p>
+<p id="delivery_charge_p">Delivery charge: <span id="delivery_charge"></span></p>
 
-<p>VAT: <span id="vat"></span></p>
+<p id="vat_p">VAT: <span id="vat"></span></p>
 
-<p>Total: <span id="total"></span></p>
+<p id="total_p">Total: <span id="total"></span></p>
 
 </costs>
 

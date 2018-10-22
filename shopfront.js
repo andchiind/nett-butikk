@@ -38,14 +38,19 @@ function updateLineCost(e, item_id) {
   setStockItemValue(item_id, "line_cost", c);
   items.push(item_id : c);
   updateSubTotal(item_id);
+  updateVAT();
+  updateDeliveryCharge();
+  updateTotalCost();
 }
 
 function updateSubTotal(element) {
  var total = 0;
- var i = document.getElementById("costs");
- var t = i.getElementById("sub_total_p");
- var y = t.getElementById("sub_total");
+ var x = document.getElementById("costs");
+ var y = i.getElementById("sub_total_p"); ///TODO get better variable names
+ var z = t.getElementById("sub_total");
+
  for (item_id of document.getElementsByTagName("stock_item")) {
+
    var p = getStockItemValue(item_id, "item_price");
    var q = item_id.getElementsByTagName("item_quantity")[0];
    total = total + (p * q);
@@ -53,7 +58,7 @@ function updateSubTotal(element) {
    //total = total + getStockItemValue(item_id, "item_price");
  }
  this.subTotal = total; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- y.innerHTML = total.toFixed(2);
+ z.innerHTML = total.toFixed(2);
  //document.getElementById("sub_total").innerHTML = total.toFixed(2);
 }
 
@@ -67,27 +72,42 @@ function getItemsAndPrice() {
   return returnString;
 }
 
-// function updateDeliveryCharge() {
-//
-// }
-//
-// function updateVAT() {
-//
-// }
-//
-// function updateTotalCost() {
-//
-// }
-//
- function getTotalCost() {
-   document.getElementById("total_cost").innerHTML = totalCost;
-   return totalCost;
- }
-//
- function getSubTotal() {
-   return subTotal;
- }
-//
- function getVAT() {
-   return vat;
- }
+function updateDeliveryCharge() {
+  delivery_charge = subTotal / 10;
+  var x = document.getElementById("costs");
+  var y = i.getElementById("delivery_charge_p"); ///TODO get better variable names
+  var z = t.getElementById("delivery_charge");
+
+  z.innerHTML = delivery_charge;
+}
+
+function updateVAT() {
+  vat = subTotal / 5;
+  var x = document.getElementById("costs");
+  var y = i.getElementById("vat_p"); ///TODO get better variable names
+  var z = t.getElementById("vat");
+
+  z.innerHTML = vat;
+}
+
+function updateTotalCost() {
+  totalCost = vat + delivery_charge + subTotal;
+  var x = document.getElementById("costs");
+  var y = i.getElementById("total_p"); ///TODO get better variable names
+  var z = t.getElementById("total");
+
+  z.innerHTML = totalCost;
+}
+
+function getTotalCost() {
+ //document.getElementById("total_cost").innerHTML = totalCost;
+ return totalCost;
+}
+
+function getSubTotal() {
+ return subTotal;
+}
+
+function getVAT() {
+ return vat;
+}

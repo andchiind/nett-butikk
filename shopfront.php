@@ -1,12 +1,9 @@
 <?php
 clearstatcache(); // http://php.net/manual/en/function.clearstatcache.php
-
 define("STOCK_FILE_NAME", "stock.txt"); // Local file - insecure!
 define("STOCK_FILE_LINE_SIZE", 256); // 256 line length should enough.
-
 define("PHOTO_DIR", "piks/large/"); // large photo, local files, insecure!
 define("THUMBNAIL_DIR", "piks/thumbnail/"); // thumbnail, local files, insecure!
-
 function photoCheck($photo) { // Do we have photos?
   $result = "";
   $p = PHOTO_DIR . $photo;
@@ -15,11 +12,9 @@ function photoCheck($photo) { // Do we have photos?
   else { $result = "<a href=\"{$p}\"><img src=\"{$t}\" border=\"0\" /></a>"; }
   return $result;
 }
-
 if (!file_exists(STOCK_FILE_NAME)) {
   die("File not found for read - " . STOCK_FILE_NAME . "\n"); // Script exits.
 }
-
 $f = fopen(STOCK_FILE_NAME, "r");
 $stock_list = null;
 print_r($stock_list);
@@ -32,9 +27,7 @@ while (($row = fgetcsv($f, STOCK_FILE_LINE_SIZE)) != false) {
     "price" => $row[3]);
   $stock_list[$row[0]] = $stock_item; // Add stock.
 }
-
 fclose($f);
-
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +61,6 @@ fclose($f);
   </stock_item>
 
 <?php
-
 foreach(array_keys($stock_list) as $id) {
   // spacing in HTML output for readability only
   echo "  <stock_item id=\"{$id}\">\n";
@@ -82,20 +74,23 @@ foreach(array_keys($stock_list) as $id) {
   echo "    <line_cost>0.00</line_cost>\n";
   echo "  </stock_item>\n\n";
 }
-
 ?>
 
 </stock_list>
 
 <br />
 
-<p>Sub-total: <span type="text" id="sub_total"></span></p>
+<costs id="costs">
+
+<p id="sub_total_p">Sub-total: <span type="text" id="sub_total"></span></p>
 
 <p>Delivery charge: <span id="delivery_charge"></span></p>
 
 <p>VAT: <span id="vat"></span></p>
 
 <p>Total: <span id="total"></span></p>
+
+</costs>
 
 <hr />
 

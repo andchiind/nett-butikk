@@ -1,14 +1,12 @@
-let subTotal = 0;
-let vat = 0;
-let delivery_charge = 0;
-let totalCost = 0;
-let items = [];
+var items = [];
 
 /*
  * item_id: string (id of item)
  * element: string (tag name of element)
  */
 function getStockItemValue(item_id, element) {
+
+  //console.log(item_id.id);
   var i = document.getElementById(item_id);
   var e = i.getElementsByTagName(element)[0];  // assume only 1!
   var v = e.innerHTML;
@@ -36,78 +34,88 @@ function updateLineCost(e, item_id) {
   var c = p * q; // implicit type conversion
   c = c.toFixed(2); // 2 decimal places always.
   setStockItemValue(item_id, "line_cost", c);
-  items.push(item_id : c);
-  updateSubTotal(item_id);
+  //items.item_id = c;
+  //items.push(item_id : c);
+  updateSubTotal();
   updateVAT();
   updateDeliveryCharge();
   updateTotalCost();
 }
 
-function updateSubTotal(element) {
- var total = 0;
- var x = document.getElementById("costs");
- var y = i.getElementById("sub_total_p"); ///TODO get better variable names
- var z = t.getElementById("sub_total");
+function updateSubTotal() {
 
- for (item_id of document.getElementsByTagName("stock_item")) {
+  var s = parseFloat(document.getElementById("sub_total").innerHTML);
+  var l = document.getElementsByTagName("line_cost");
+  var subTotal = 0;
 
-   var p = getStockItemValue(item_id, "item_price");
-   var q = item_id.getElementsByTagName("item_quantity")[0];
-   total = total + (p * q);
-
-   //total = total + getStockItemValue(item_id, "item_price");
- }
- this.subTotal = total; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- z.innerHTML = total.toFixed(2);
- //document.getElementById("sub_total").innerHTML = total.toFixed(2);
-}
-
-function getItemsAndPrice() {
-  var returnString;
-  for (var key in items) {
-    if (items.hasOwnProperty(key)) {
-      returnString = returnString + "<br />" + key + ": " + items[key];
+  for (let i = 0; i < l.length; i++) {
+    let p = parseFloat(l[i].innerHTML);
+    if (p > 0) {
+      subTotal += p;
     }
   }
-  return returnString;
+
+  document.getElementById("sub_total").innerHTML = subTotal.toFixed(2);
 }
 
-function updateDeliveryCharge() {
-  delivery_charge = subTotal / 10;
-  var x = document.getElementById("costs");
-  var y = i.getElementById("delivery_charge_p"); ///TODO get better variable names
-  var z = t.getElementById("delivery_charge");
+// function getItemsAndPrice() {
+//   var returnString;
+//   for (var key in items) {
+//     if (items.hasOwnProperty(key)) {
+//       returnString = returnString + "<br />" + key + ": " + items[key];
+//     }
+//   }
+//   document.getElementById("items").innerHTML = returnString;
+// }
 
-  z.innerHTML = delivery_charge;
+function updateDeliveryCharge() {
+
+  var st = parseFloat(document.getElementById("sub_total").innerHTML);
+  var delivery_charge = st / 10;
+  var d = document.getElementById("delivery_charge");
+
+  d.innerHTML = delivery_charge.toFixed(2);
 }
 
 function updateVAT() {
-  vat = subTotal / 5;
-  var x = document.getElementById("costs");
-  var y = i.getElementById("vat_p"); ///TODO get better variable names
-  var z = t.getElementById("vat");
 
-  z.innerHTML = vat;
+  var st = parseFloat(document.getElementById("sub_total").innerHTML);
+  var vat = st / 5;
+  var v = document.getElementById("vat");
+
+  v.innerHTML = vat.toFixed(2);
 }
 
 function updateTotalCost() {
-  totalCost = vat + delivery_charge + subTotal;
-  var x = document.getElementById("costs");
-  var y = i.getElementById("total_p"); ///TODO get better variable names
-  var z = t.getElementById("total");
 
-  z.innerHTML = totalCost;
-}
+  var st = parseFloat(document.getElementById("sub_total").innerHTML);
+  var v = parseFloat(document.getElementById("vat").innerHTML);
+  var d = parseFloat(document.getElementById("delivery_charge").innerHTML);
 
-function getTotalCost() {
- //document.getElementById("total_cost").innerHTML = totalCost;
- return totalCost;
-}
+  var totalCost = v + d + st;
 
-function getSubTotal() {
- return subTotal;
-}
+  var t = document.getElementById("total");
 
-function getVAT() {
- return vat;
+  t.innerHTML = totalCost.toFixed(2);
 }
+//
+// function getTotalCost() {
+//  var tc = document.getElementById("total_cost");
+//  console.log(totalCost);
+//  tc.innerHTML = totalCost;
+// }
+//
+// function getDeliveryCharge() {
+//   var dc = document.getElementById("delivery_charge")
+//   dc.innerHTML = delivery_charge;
+// }
+//
+// function getSubTotal() {
+//   var st = document.getElementById("total");
+//   st.innerHTML = subTotal;
+// }
+//
+// function getVAT() {
+//   var v = document.getElementById("vat");
+//   v.innerHTML = vat;
+// }

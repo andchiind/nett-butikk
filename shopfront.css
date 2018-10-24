@@ -65,3 +65,7 @@ line_cost {
   background-color: blue;
   color: white;
 }
+
+.button_ {
+  padding-left: 0.5rem;
+}

@@ -4,6 +4,7 @@ define("STOCK_FILE_NAME", "stock.txt"); // Local file - insecure!
 define("STOCK_FILE_LINE_SIZE", 256); // 256 line length should enough.
 define("PHOTO_DIR", "piks/large/"); // large photo, local files, insecure!
 define("THUMBNAIL_DIR", "piks/thumbnail/"); // thumbnail, local files, insecure!
+
 function photoCheck($photo) { // Do we have photos?
   $result = "";
   $p = PHOTO_DIR . $photo;
@@ -12,9 +13,11 @@ function photoCheck($photo) { // Do we have photos?
   else { $result = "<a href=\"{$p}\"><img src=\"{$t}\" border=\"0\" /></a>"; }
   return $result;
 }
+
 if (!file_exists(STOCK_FILE_NAME)) {
   die("File not found for read - " . STOCK_FILE_NAME . "\n"); // Script exits.
 }
+
 $f = fopen(STOCK_FILE_NAME, "r");
 $stock_list = null;
 print_r($stock_list);
@@ -27,6 +30,7 @@ while (($row = fgetcsv($f, STOCK_FILE_LINE_SIZE)) != false) {
     "price" => $row[3]);
   $stock_list[$row[0]] = $stock_item; // Add stock.
 }
+
 fclose($f);
 ?>
 
@@ -47,7 +51,9 @@ fclose($f);
 
 <hr />
 
-<form name="order" action="shopback.php" method="POST">
+<form id="confirm" action="shopback.php" method="POST"></form>
+
+<form name="order" id="form" onsubmit="confirmation();">
 
 <stock_list>
 
@@ -90,38 +96,44 @@ foreach(array_keys($stock_list) as $id) {
 
 <hr />
 
-<p>Credit Card type:
-<select name="cc_type" size="1" required>
-<option value="" selected>-</option>
-<option value="mastercard">MasterCard</option>
-<option value="visa">Visa</option>
-</select>
-</p>
+<form_input id="formInput">
 
-<p>Credit Card number:
-<input type="text" name="cc_number" pattern="[0-9]{16}" size="16" required/></p>
+  <p>Credit Card type:
+    <select name="cc_type" size="1" required>
+      <option value="" selected>-</option>
+      <option value="mastercard">MasterCard</option>
+      <option value="visa">Visa</option>
+    </select>
+  </p>
 
-<p>Name on Credit Card (also the name for delivery):
-<input type="text" name="cc_name" size="80" required/></p>
+  <p>Credit Card number:
+    <input type="text" name="cc_number" pattern="[0-9]{16}" size="16" required/></p>
 
-<p>Credit Card security code:
-<input type="text" name="cc_code" pattern="[0-9]{3}" size="3" required/></p>
+  <p>Name on Credit Card (also the name for delivery):
+    <input type="text" name="cc_name" size="80" required/></p>
 
-<p>Delivery street address:
-<input type="text" name="delivery_address" size="128" required/></p>
+  <p>Credit Card security code:
+    <input type="text" name="cc_code" pattern="[0-9]{3}" size="3" required/></p>
 
-<p>Delivery postcode:
-<input type="text" name="delivery_postcode" size="40" required/></p>
+  <p>Delivery street address:
+    <input type="text" name="delivery_address" size="128" required/></p>
 
-<p>Delivery country:
-<input type="text" name="delivery_country" size="80" required/></p>
+  <p>Delivery postcode:
+    <input type="text" name="delivery_postcode" size="40" required/></p>
 
-<p>Email:
-<input type="email" name="email" required/></p>
+  <p>Delivery country:
+    <input type="text" name="delivery_country" size="80" required/></p>
+
+  <p>Email:
+    <input type="email" name="email" required/></p>
+
+</form_input>
+
+<!-- <confirm_form></confirm_form> -->
 
 <hr />
 
-<input type="submit" value="Place Order" />
+<input type="submit" class="button" value="Place Order" />
 
 </form>
 

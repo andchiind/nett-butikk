@@ -1,5 +1,3 @@
-var items = [];
-
 /*
  * item_id: string (id of item)
  * element: string (tag name of element)
@@ -24,6 +22,60 @@ function setStockItemValue(item_id, element, value) {
   e.innerHTML = value;
 }
 
+function confirmation() {
+  let form = document.getElementById("form");
+
+  form.style.visibility = "hidden";
+  //form.style.display = "none";
+
+  let inputs = document.getElementById("formInput");
+  let input = inputs.getElementsByTagName("p");
+  let items = document.getElementsByTagName("stock_item");
+
+  let newForm = "<h2>Are you sure that the following information is correct?</h2>";
+
+  for (let i = 0; i < items.length; i++) {
+    let quantity = items[i].getElementsByTagName("item_quantity")[0].value;
+    let price = items[i].getElementsByTagName("line_cost")[0].innerHTML;
+    let name = items[i].getElementsByTagName("item_name")[0].innerHTML;
+    if (price != "0.00" && name != "Name") {
+      newForm += "<p>" + name + ": " + quantity + "</ br>Price: " + price + "</p>";
+    }
+  }
+
+  for (let i = 0; i < input.length; i++) {
+    let p = input[i].childNodes[0].nodeValue;
+    let inputContent = "";
+    if (input[i].children[0].tagName == "select") {
+      inputContent = input[i].children[0].options[children[0].selectedIndex].value;
+    } else {
+      inputContent = input[i].children[0].value;
+    }
+    newForm += "<p>" + p + " " + inputContent + "</p>";
+  }
+
+  newForm += "<input type=\"submit\" value=\"Confirm\" class=\"button\" />";
+  newForm += "<input type=\"button\" value=\"Cancel\" onclick=\"returnToShop();\" class=\"button\" />";
+
+  console.log("hei hei hei");
+  document.getElementById("confirm").innerHTML = newForm;
+  console.log("???");
+  //document.getElementById("confirm").style.display = "block";
+  document.getElementById("confirm").style.visibility = "visible";
+}
+
+function returnToShop() {
+  let form = document.getElementById("confirm");
+  let oldForm = document.getElementById("form");
+  oldForm.style.visibility = "visible";
+  //oldForm.style.display = "block";
+
+  form.innerHTML = "";
+
+  form.style.visibility = "hidden";
+  //form.style.display = "none";
+}
+
 /*
  * e: object from DOM tree (item_quantity that made )
  * item_id: string (id of item)
@@ -34,8 +86,6 @@ function updateLineCost(e, item_id) {
   var c = p * q; // implicit type conversion
   c = c.toFixed(2); // 2 decimal places always.
   setStockItemValue(item_id, "line_cost", c);
-  //items.item_id = c;
-  //items.push(item_id : c);
   updateSubTotal();
   updateVAT();
   updateDeliveryCharge();

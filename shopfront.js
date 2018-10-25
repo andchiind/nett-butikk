@@ -23,25 +23,30 @@ function setStockItemValue(item_id, element, value) {
 }
 
 function confirmation() {
-  let form = document.getElementById("form");
-
-  form.style.visibility = "hidden";
-  //form.style.display = "none";
 
   let inputs = document.getElementById("formInput");
   let input = inputs.getElementsByTagName("p");
   let items = document.getElementsByTagName("stock_item");
 
+  inputs.style.display = "none";
+
   let newForm = "<h2>Are you sure that the following information is correct?</h2>";
 
   for (let i = 0; i < items.length; i++) {
-    let quantity = items[i].getElementsByTagName("item_quantity")[0].value;
+
     let price = items[i].getElementsByTagName("line_cost")[0].innerHTML;
     let name = items[i].getElementsByTagName("item_name")[0].innerHTML;
+
     if (price != "0.00" && name != "Name") {
-      newForm += "<p>" + name + ": " + quantity + "</ br>Price: " + price + "</p>";
+
+      let quantityTag = items[i].getElementsByTagName("item_quantity")[0];
+      let quantity = quantityTag.children[0].value;
+
+      newForm += "<p>" + name + ": " + quantity + "<br /> Price: " + price + "</p>";
     }
   }
+
+  newForm += "<p>Total Cost: " + document.getElementById("total").innerHTML + "</p><br />";
 
   for (let i = 0; i < input.length; i++) {
     let p = input[i].childNodes[0].nodeValue;
@@ -51,29 +56,52 @@ function confirmation() {
     } else {
       inputContent = input[i].children[0].value;
     }
-    newForm += "<p>" + p + " " + inputContent + "</p>";
+    newForm += p + " " + inputContent + "<br />";
   }
 
-  newForm += "<input type=\"submit\" value=\"Confirm\" class=\"button\" />";
+  newForm += "<br />";
+
+  newForm += "<input type=\"submit\" value=\"Confirm\" onclick=\"openReceipt();\" class=\"button\" />";
   newForm += "<input type=\"button\" value=\"Cancel\" onclick=\"returnToShop();\" class=\"button\" />";
 
-  console.log("hei hei hei");
   document.getElementById("confirm").innerHTML = newForm;
-  console.log("???");
-  //document.getElementById("confirm").style.display = "block";
-  document.getElementById("confirm").style.visibility = "visible";
+  document.getElementById("confirm").style.display = "block";
+}
+
+function openReceipt() {
+  let form = document.getElementById("form");
+  form.onsubmit = "";
+  form.action = "shopback.php";
+  form.submit();
 }
 
 function returnToShop() {
-  let form = document.getElementById("confirm");
-  let oldForm = document.getElementById("form");
-  oldForm.style.visibility = "visible";
-  //oldForm.style.display = "block";
+  let confirmInfo = document.getElementById("confirm");
+  confirmInfo.innerHTML = "";
+  confirmInfo.style.display = "none";
 
-  form.innerHTML = "";
+  let form = document.getElementById("form");
+  form.action = "";
 
-  form.style.visibility = "hidden";
-  //form.style.display = "none";
+  let inputs = document.getElementById("formInput");
+  inputs.style.display = "block";
+
+
+}
+
+function checkCard() {
+  let cardNumber = document.getElementsByName("cc_number")[0];
+  let cardTypeSelect = document.getElementsByName("cc_type")[0];
+  let cardType = cardTypeSelect.options[cardTypeSelect.selectedIndex].value;
+  let button = document.getElementById("form_button");
+
+  if ((cardNumber.value.substring(0,1) == "4" && cardType == "visa")
+  || (cardNumber.value.substring(0,1) == "5" && cardType == "mastercard")) {
+    button.disabled = false;
+  } else {
+    button.disabled = true;
+    alert("The card number should start with '5' for mastercard or '4' for visa.");
+  }
 }
 
 /*
@@ -148,7 +176,7 @@ function updateTotalCost() {
 
   t.innerHTML = totalCost.toFixed(2);
 }
-//
+
 // function getTotalCost() {
 //  var tc = document.getElementById("total_cost");
 //  console.log(totalCost);

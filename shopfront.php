@@ -51,9 +51,9 @@ fclose($f);
 
 <hr />
 
-<form id="confirm" action="shopback.php" method="POST"></form>
+<!-- <form id="confirm" action="shopback.php" method="POST"></form> -->
 
-<form name="order" id="form" onsubmit="confirmation();">
+<form name="order" method="POST" id="form" onsubmit="confirmation(); return false;">
 
 <stock_list>
 
@@ -107,7 +107,7 @@ foreach(array_keys($stock_list) as $id) {
   </p>
 
   <p>Credit Card number:
-    <input type="text" name="cc_number" pattern="[0-9]{16}" size="16" required/></p>
+    <input type="text" name="cc_number" pattern="[0-9]{16}" size="16" onchange="checkCard();" required/></p>
 
   <p>Name on Credit Card (also the name for delivery):
     <input type="text" name="cc_name" size="80" required/></p>
@@ -127,15 +127,15 @@ foreach(array_keys($stock_list) as $id) {
   <p>Email:
     <input type="email" name="email" required/></p>
 
-</form_input>
-
-<!-- <confirm_form></confirm_form> -->
-
 <hr />
 
-<input type="submit" class="button" value="Place Order" />
+<input id="form_button" type="submit" class="button" value="Place Order" />
+
+</form_input>
 
 </form>
+
+<div id="confirm"></div>
 
 <hr />
 

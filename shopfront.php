@@ -51,8 +51,6 @@ fclose($f);
 
 <hr />
 
-<!-- <form id="confirm" action="shopback.php" method="POST"></form> -->
-
 <form name="order" method="POST" id="form" onsubmit="confirmation(); return false;">
 
 <stock_list>
@@ -68,7 +66,6 @@ fclose($f);
 
 <?php
 foreach(array_keys($stock_list) as $id) {
-  // spacing in HTML output for readability only
   echo "  <stock_item id=\"{$id}\">\n";
   $item = $stock_list[$id];
   $p = photoCheck($item["photo"]);
@@ -93,6 +90,7 @@ foreach(array_keys($stock_list) as $id) {
 <p>VAT: <span id="vat"></span></p>
 
 <p>Total: <span id="total"></span></p>
+<!-- <input type="hidden" name="total" id="total"></input> -->
 
 <hr />
 

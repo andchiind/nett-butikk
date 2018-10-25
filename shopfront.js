@@ -46,7 +46,10 @@ function confirmation() {
     }
   }
 
+  //if (document.getElementById("total").innerHTML != UNDEFINED) { !!!!!!!!!!!!!!!!!!
+
   newForm += "<p>Total Cost: " + document.getElementById("total").innerHTML + "</p><br />";
+  //}
 
   for (let i = 0; i < input.length; i++) {
     let p = input[i].childNodes[0].nodeValue;
@@ -85,8 +88,6 @@ function returnToShop() {
 
   let inputs = document.getElementById("formInput");
   inputs.style.display = "block";
-
-
 }
 
 function checkCard() {

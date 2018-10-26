@@ -27,7 +27,7 @@ while (($row = fgetcsv($f, STOCK_FILE_LINE_SIZE)) != false) {
     "photo" => $row[0] . ".jpg",
     "name" => $row[1],
     "info" => $row[2],
-    "price" => $row[3]),
+    "price" => $row[3],
     "stock" => $row[4]);
   $stock_list[$row[0]] = $stock_item; // Add stock.
 }
@@ -78,7 +78,8 @@ foreach(array_keys($stock_list) as $id) {
   echo "    <item_quantity value=\"0\"><input name=\"{$id}\" type=\"text\" value=\"0\" pattern=\"[0-9]+\" size=\"3\" onchange=\"updateLineCost(this, '{$id}');\" /></item_quantity>\n";
   echo "    <line_cost>0.00</line_cost>\n";
   echo "      <input type=\"hidden\" name=\"{$id}_line_cost\" value=\"0.00\" />\n";
-  echo "    <item_stock>{$item["stock"]}<item_stock>\n";
+  echo "    <item_stock name=\"{$item["stock"]}\">{$item["stock"]}<item_stock>\n"; //This value is changed and displayed
+  // echo "    <total_stock style=\"display:none\">{$item["stock"]}<item_stock>\n"; //This stores the total stock
   echo "  </stock_item>\n\n";
 }
 ?>

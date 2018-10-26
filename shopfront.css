@@ -61,12 +61,20 @@ line_cost {
   display: table-cell;
 }
 
+item_stock {
+  border-spacing: 0.4rem;
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5rem;
+  display: table-cell;
+}
+
 .heading {
   background-color: blue;
   color: white;
 }
 
-.button_ {
+/* .button_ {
   padding-left: 0.5rem;
   border-spacing: 0.4rem;
-}
+} */

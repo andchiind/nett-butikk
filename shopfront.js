@@ -119,25 +119,38 @@ function updateLineCost(e, item_id) {
     e.value = q; // This ensures that the input is always a number
   }
   if ((q % 1) == 0) { //Only allows integers as item quantitites
-    var c = p * q; // implicit type conversion
-    c = c.toFixed(2); // 2 decimal places always.
-    //var stockItem = document.getElementById(item_id);
-    var input = document.getElementsByName(item_id + "_line_cost")[0];
-    input.value = c;
+    if (updateStock(q, item_id)) {
+      var c = p * q; // implicit type conversion
+      c = c.toFixed(2); // 2 decimal places always.
 
-    updateStock(q);
-    setStockItemValue(item_id, "line_cost", c);
-    updateSubTotal();
-    updateVAT();
-    updateDeliveryCharge();
-    updateTotalCost();
+      var input = document.getElementsByName(item_id + "_line_cost")[0];
+      input.value = c;
+
+      setStockItemValue(item_id, "line_cost", c);
+      updateSubTotal();
+      updateVAT();
+      updateDeliveryCharge();
+      updateTotalCost();
+    }
   }
 }
 
-function updateStock(q) {
+function updateStock(q, item_id) {
 
-  
-
+  var item = document.getElementById(item_id);
+  var stock = item.getElementsByTagName("item_stock")[0];
+  //var totalStock = item.getElementsByTagName("total_stock")[0];
+  console.log(item);
+  console.log(stock.getName());
+  //console.log(totalStock);
+  let newStock = parseFloat(stock.name) - parseFloat(q);
+  if (newStock >= 0) {
+    stock.innerHTML = parseFloat(stock.name) - parseFloat(q);
+    return true;
+  } else {
+    alert("Insufficient stock, please select a lower quantity");
+    return false;
+  }
 }
 
 function updateSubTotal() {

@@ -47,8 +47,10 @@ function confirmation() {
   }
 
   //if (document.getElementById("total").innerHTML != UNDEFINED) { !!!!!!!!!!!!!!!!!!
-
-  newForm += "<p>Total Cost: " + document.getElementById("total").innerHTML + "</p><br />";
+  newForm += "<p>Sub-total: " + document.getElementById("sub_total").innerHTML + "<br />";
+  newForm += "Delivery charge: " + document.getElementById("delivery_charge").innerHTML + "<br />";
+  newForm += "VAT: " + document.getElementById("vat").innerHTML + "<br />";
+  newForm += "Total Cost: " + document.getElementById("total").innerHTML + "</p>";
   //}
 
   for (let i = 0; i < input.length; i++) {
@@ -123,12 +125,19 @@ function updateLineCost(e, item_id) {
     var input = document.getElementsByName(item_id + "_line_cost")[0];
     input.value = c;
 
+    updateStock(q);
     setStockItemValue(item_id, "line_cost", c);
     updateSubTotal();
     updateVAT();
     updateDeliveryCharge();
     updateTotalCost();
   }
+}
+
+function updateStock(q) {
+
+  
+
 }
 
 function updateSubTotal() {
@@ -194,24 +203,3 @@ function updateHiddenInput($id) {
   let input = document.getElementsByName($id.id)[0];
   input.value = value;
 }
-
-// function getTotalCost() {
-//  var tc = document.getElementById("total_cost");
-//  console.log(totalCost);
-//  tc.innerHTML = totalCost;
-// }
-//
-// function getDeliveryCharge() {
-//   var dc = document.getElementById("delivery_charge")
-//   dc.innerHTML = delivery_charge;
-// }
-//
-// function getSubTotal() {
-//   var st = document.getElementById("total");
-//   st.innerHTML = subTotal;
-// }
-//
-// function getVAT() {
-//   var v = document.getElementById("vat");
-//   v.innerHTML = vat;
-// }

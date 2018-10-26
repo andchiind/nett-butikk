@@ -75,6 +75,7 @@ foreach(array_keys($stock_list) as $id) {
   echo "    <item_price>{$item["price"]}</item_price>\n";
   echo "    <item_quantity value=\"0\"><input name=\"{$id}\" type=\"text\" value=\"0\" pattern=\"[0-9]+\" size=\"3\" onchange=\"updateLineCost(this, '{$id}');\" /></item_quantity>\n";
   echo "    <line_cost>0.00</line_cost>\n";
+  echo "    <input type=\"hidden\" name=\"{$id}_line_cost\" value=\"0.00\" />\n";
   echo "  </stock_item>\n\n";
 }
 ?>
@@ -84,14 +85,16 @@ foreach(array_keys($stock_list) as $id) {
 <br />
 
 <p>Sub-total: <span id="sub_total"></span></p>
+<input type="hidden" name="sub_total" value="0.00" />
 
 <p>Delivery charge: <span id="delivery_charge"></span></p>
+<input type="hidden" name="delivery_charge" value="0.00" />
 
 <p>VAT: <span id="vat"></span></p>
+<input type="hidden" name="vat" value="0.00" />
 
 <p>Total: <span id="total"></span></p>
-<!-- <input type="hidden" name="total" id="total"></input> -->
-
+<input type="hidden" name="total" value="0.00" />
 <hr />
 
 <form_input id="formInput">

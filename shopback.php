@@ -63,8 +63,7 @@ foreach (array_keys($_POST) as $k) {
 
   if ($correct_values) {
     $v = getFormInfo($k);
-    //echo "{$k} {$v}"; !!!!!!!!!!!!!!!!!!!!!!!!!
-    if ($v == "" OR $v == NULL) {
+    if ($v == "" OR $v == NULL) { //THIS MIGHT NOT BE USEFUL, SEE ITEM QUANTITY
       wrongInfo("Missing value for ".$k);
       break;
     }
@@ -109,6 +108,11 @@ foreach (array_keys($_POST) as $k) {
       $item_quantity += $v;
     }
     if ($display AND $correct_values AND $v != "" AND $v != NULL AND $v != "0") { //Treat numbers as Strings
+      if (substr($k, -strlen("_line_cost")) == "_line_cost") { // Returns false if $k does not contain "line_cost"
+        //https://www.codemiles.com/php-examples/check-if-string-ends-with-specific-sub-string-in-php-t10704.html
+        $k = "Item Cost:";
+        $v = $v." <br />";
+      }
       $printout = $printout."{$k} : {$v}<br />\n";
     }
   }
@@ -123,8 +127,6 @@ if ($correct_values) {
   echo $printout."<br />";
 
   echo "<form name=\"order\" action=\"shopfront.php\" method=\"POST\"> <input type=\"submit\" value=\"Return to store\" /> </form>";
-
-  echo print_r($_POST);
 }
 
 ?>

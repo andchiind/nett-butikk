@@ -112,13 +112,23 @@ function checkCard() {
 function updateLineCost(e, item_id) {
   var p = getStockItemValue(item_id, "item_price");
   var q = e.value;
-  var c = p * q; // implicit type conversion
-  c = c.toFixed(2); // 2 decimal places always.
-  setStockItemValue(item_id, "line_cost", c);
-  updateSubTotal();
-  updateVAT();
-  updateDeliveryCharge();
-  updateTotalCost();
+  if (q == "") {
+    q = 0;
+    e.value = q; // This ensures that the input is always a number
+  }
+  if ((q % 1) == 0) { //Only allows integers as item quantitites
+    var c = p * q; // implicit type conversion
+    c = c.toFixed(2); // 2 decimal places always.
+    //var stockItem = document.getElementById(item_id);
+    var input = document.getElementsByName(item_id + "_line_cost")[0];
+    input.value = c;
+
+    setStockItemValue(item_id, "line_cost", c);
+    updateSubTotal();
+    updateVAT();
+    updateDeliveryCharge();
+    updateTotalCost();
+  }
 }
 
 function updateSubTotal() {
@@ -134,18 +144,11 @@ function updateSubTotal() {
     }
   }
 
-  document.getElementById("sub_total").innerHTML = subTotal.toFixed(2);
-}
+  let st = document.getElementById("sub_total");
 
-// function getItemsAndPrice() {
-//   var returnString;
-//   for (var key in items) {
-//     if (items.hasOwnProperty(key)) {
-//       returnString = returnString + "<br />" + key + ": " + items[key];
-//     }
-//   }
-//   document.getElementById("items").innerHTML = returnString;
-// }
+  st.innerHTML = subTotal.toFixed(2);
+  updateHiddenInput(st);
+}
 
 function updateDeliveryCharge() {
 
@@ -154,15 +157,21 @@ function updateDeliveryCharge() {
   var d = document.getElementById("delivery_charge");
 
   d.innerHTML = delivery_charge.toFixed(2);
+  updateHiddenInput(d);
 }
 
 function updateVAT() {
 
   var st = parseFloat(document.getElementById("sub_total").innerHTML);
-  var vat = st / 5;
+  var vat = 0;
+  if (st < 100) {
+    vat = st / 5;
+  }
+
   var v = document.getElementById("vat");
 
   v.innerHTML = vat.toFixed(2);
+  updateHiddenInput(v);
 }
 
 function updateTotalCost() {
@@ -176,6 +185,14 @@ function updateTotalCost() {
   var t = document.getElementById("total");
 
   t.innerHTML = totalCost.toFixed(2);
+
+  updateHiddenInput(t);
+}
+
+function updateHiddenInput($id) {
+  let value = $id.innerHTML;
+  let input = document.getElementsByName($id.id)[0];
+  input.value = value;
 }
 
 // function getTotalCost() {

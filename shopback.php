@@ -14,7 +14,50 @@
   <script src="shopfront.js"></script>
 
 <?php
-$card_type = "no card type specified";
+
+function updateStock() {
+  define("STOCK_FILE_NAME", "stock.txt");
+  define("STOCK_FILE_LINE_SIZE", 256);
+
+  if (!file_exists(STOCK_FILE_NAME)) {
+    die("File not found for read - " . STOCK_FILE_NAME . "\n");
+  }
+
+  $f = fopen(STOCK_FILE_NAME, "r");
+
+  $stock_list = null;
+
+  while (($row = fgetcsv($f, STOCK_FILE_LINE_SIZE)) != false) {
+    $stock = $row[4];
+    if (getStock($row[0]) != false) { //Check if the stock has changed
+      $stock = getStock($row[0]);
+    }
+    $stock_item = array(
+      "id" => $row[0],
+      "photo" => $row[0] . ".jpg",
+      "name" => $row[1],
+      "info" => $row[2],
+      "price" => $row[3],
+      "stock" => $stock); // Add new stock
+    $stock_list .= implode(",", $stock_item)."\n";
+    echo implode(",", $stock_item)."<br />";
+  }
+  echo "<br />".$stock_list;
+  fwrite($f, $stock_list);
+
+  fclose($f);
+}
+
+function getStock($item) {
+  global $newStock;
+  foreach (array_keys($newStock) as $item_name) {
+    if ($item_name == $item) {
+      return $newStock[$item_name];
+    }
+  }
+  return false;
+}
+
 function getFormInfo($k) {
   return isset($_POST[$k]) ? htmlspecialchars($_POST[$k]) : null;
 }
@@ -49,21 +92,49 @@ function testItemQuantity($v) {
   }
 }
 
+function formatNames($name) {
+
+  switch ($name) {
+    case "sub_total":
+        return "Sub Total";
+    case "delivery_charge":
+      return "Delivery Charge";
+    case "vat":
+      return "VAT";
+    case "total":
+      return "Total Cost";
+    case "cc_type":
+      return "Card Type";
+    case "cc_number":
+      return "Card Number";
+    case "cc_name":
+      return "Name on the Card";
+    case "delivery_address":
+      return "Delivery Address";
+    case "email":
+      return "Contact E-mail";
+    default:
+      return $name;
+  }
+}
+
 $printout = "";
 $correct_values = true;
 $item_quantity = 0;
 $item = true;
+$card_type = "no card type specified";
+$newStock = [];
 foreach (array_keys($_POST) as $k) {
+  global $newStock;
   global $card_type;
   global $item_quantity;
   global $correct_values;
   global $item;
-  //$correct_values = true;
   $display = true;
 
   if ($correct_values) {
     $v = getFormInfo($k);
-    if ($v == "" OR $v == NULL) { //THIS MIGHT NOT BE USEFUL, SEE ITEM QUANTITY
+    if ($v == "" OR $v == NULL) { //THIS MIGHT NOT BE USEFUL, SEE ITEM QUANTITY !!!!!!!!!!
       wrongInfo("Missing value for ".$k);
       break;
     }
@@ -113,6 +184,12 @@ foreach (array_keys($_POST) as $k) {
         $k = "Item Cost:";
         $v = $v." <br />";
       }
+      if (substr($k, -strlen("_item_stock")) == "_item_stock") { // Returns false if $k does not contain "line_cost"
+        $k = str_replace("_item_stock", "", $k);
+        $newStock[$k] = $v;
+        continue;
+      }
+      $k = formatNames($k);
       $printout = $printout."{$k} : {$v}<br />\n";
     }
   }
@@ -127,6 +204,8 @@ if ($correct_values) {
   echo $printout."<br />";
 
   echo "<form name=\"order\" action=\"shopfront.php\" method=\"POST\"> <input type=\"submit\" value=\"Return to store\" /> </form>";
+
+  updateStock();
 }
 
 ?>

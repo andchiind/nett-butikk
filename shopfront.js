@@ -114,7 +114,7 @@ function checkCard() {
 function updateLineCost(e, item_id) {
   var p = getStockItemValue(item_id, "item_price");
   var q = e.value;
-  if (q == "") {
+  if (q == "" || q < 0) {
     q = 0;
     e.value = q; // This ensures that the input is always a number
   }
@@ -139,13 +139,15 @@ function updateStock(q, item_id) {
 
   var item = document.getElementById(item_id);
   var stock = item.getElementsByTagName("item_stock")[0];
-  //var totalStock = item.getElementsByTagName("total_stock")[0];
+  var totalStock = item.getElementsByTagName("total_stock")[0];
   console.log(item);
-  console.log(stock.getName());
-  //console.log(totalStock);
-  let newStock = parseFloat(stock.name) - parseFloat(q);
+  console.log(totalStock);
+  let newStock = parseFloat(totalStock.innerHTML) - parseFloat(q);
   if (newStock >= 0) {
-    stock.innerHTML = parseFloat(stock.name) - parseFloat(q);
+    stock.innerHTML = parseFloat(totalStock.innerHTML) - parseFloat(q);
+
+    var input = document.getElementsByName(item_id + "_item_stock")[0];
+    input.value = newStock;
     return true;
   } else {
     alert("Insufficient stock, please select a lower quantity");

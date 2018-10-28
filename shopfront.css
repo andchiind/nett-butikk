@@ -74,6 +74,21 @@ item_stock {
   color: white;
 }
 
+.stock {
+  /* background-color: silver; */
+  border-style: none none groove none;
+  border-style: 2px;
+  border-color: silver;
+}
+
+.out_of_stock {
+  background-color: lightGray;
+  border-color: silver;
+  font-size: 12pt;
+  text-align: center;
+  border-style: none none groove none;
+}
+
 /* .button_ {
   padding-left: 0.5rem;
   border-spacing: 0.4rem;

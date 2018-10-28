@@ -25,7 +25,7 @@ function updateStock() {
 
   $f = fopen(STOCK_FILE_NAME, "r");
 
-  $stock_list = null;
+  $stock_list = [];
 
   while (($row = fgetcsv($f, STOCK_FILE_LINE_SIZE)) != false) {
     $stock = $row[4];
@@ -34,16 +34,41 @@ function updateStock() {
     }
     $stock_item = array(
       "id" => $row[0],
-      "photo" => $row[0] . ".jpg",
+      "photo" => $row[0],
       "name" => $row[1],
       "info" => $row[2],
       "price" => $row[3],
       "stock" => $stock); // Add new stock
-    $stock_list .= implode(",", $stock_item)."\n";
-    echo implode(",", $stock_item)."<br />";
+    //$stock_list .= implode(",", $stock_item)."\n";
+    //$stock_list[$row[0]] = $stock_item;
+    //$stock_list[length] = $row;
+    array_push($stock_list, $stock_item);
+    //echo print_r($row);
+    //fputcsv($f, $row);
+    //echo implode(",", $stock_item)."<br />";
   }
-  echo "<br />".$stock_list;
-  fwrite($f, $stock_list);
+
+  fclose($f);
+
+  $f = fopen(STOCK_FILE_NAME, "w");
+
+// crawdad,Crawdad,It's actually a 'crayfish'.,4.50,10
+// gorilla,Gorilla,Gives a friendly wave.,8.50,11
+// ninja,Ninja,Hero in a half-shell.,12.50,12
+// psion,Psion 5,A computing classic - rare.,125.00,13
+// totem,Totem,Mysterious and wooden (untold supernatural powers).,150.00,14
+
+  //file_put_contents(STOCK_FILE_NAME, "");
+
+  foreach ($stock_list as $line) {
+
+    if ($line != null) {
+      fputcsv($f, $line);
+      //fwrite($f, implode(",", $line)."\n");
+    }
+  }
+
+  //fwrite($f, $stock_list);
 
   fclose($f);
 }
@@ -190,6 +215,9 @@ foreach (array_keys($_POST) as $k) {
         continue;
       }
       $k = formatNames($k);
+      if ($k == "total") {
+        $v .= "<br />";
+      }
       $printout = $printout."{$k} : {$v}<br />\n";
     }
   }
@@ -200,7 +228,7 @@ if ($correct_values) {
   $transaction_ID = strtoupper(uniqid());
   echo "Transaction ID: ".$transaction_ID."<br />";
   echo "Date of transaction: ";
-  echo $date["mday"].".".$date["mon"].".".$date["year"].".<br />";
+  echo $date["mday"].".".$date["mon"].".".$date["year"].".<br /><br />";
   echo $printout."<br />";
 
   echo "<form name=\"order\" action=\"shopfront.php\" method=\"POST\"> <input type=\"submit\" value=\"Return to store\" /> </form>";

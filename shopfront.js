@@ -114,25 +114,24 @@ function checkCard() {
 function updateLineCost(e, item_id) {
   var p = getStockItemValue(item_id, "item_price");
   var q = e.value;
-  if (q == "" || q < 0) {
+  if (q == "" || q < 0 || (q % 1) != 0) { //Only allows positive integers as item quantitites
     q = 0;
     e.value = q; // This ensures that the input is always a number
   }
-  if ((q % 1) == 0) { //Only allows integers as item quantitites
-    if (updateStock(q, item_id)) {
-      var c = p * q; // implicit type conversion
-      c = c.toFixed(2); // 2 decimal places always.
+  if (updateStock(q, item_id)) {
+    var c = p * q; // implicit type conversion
+    c = c.toFixed(2); // 2 decimal places always.
 
-      var input = document.getElementsByName(item_id + "_line_cost")[0];
-      input.value = c;
+    var input = document.getElementsByName(item_id + "_line_cost")[0];
+    input.value = c;
 
-      setStockItemValue(item_id, "line_cost", c);
-      updateSubTotal();
-      updateVAT();
-      updateDeliveryCharge();
-      updateTotalCost();
-    }
+    setStockItemValue(item_id, "line_cost", c);
+    updateSubTotal();
+    updateVAT();
+    updateDeliveryCharge();
+    updateTotalCost();
   }
+
 }
 
 function updateStock(q, item_id) {
@@ -213,8 +212,17 @@ function updateTotalCost() {
   updateHiddenInput(t);
 }
 
-function updateHiddenInput($id) {
-  let value = $id.innerHTML;
-  let input = document.getElementsByName($id.id)[0];
+function updateHiddenInput(this_id) {
+  let value = this_id.innerHTML;
+  let input = document.getElementsByName(this_id.id)[0];
   input.value = value;
+}
+
+function selectInput(input_box) {
+  let value = input_box.value;
+  if (value == "0") {
+    input_box.value = "";
+  } else if (value == "") {
+    input_box.value = "0";
+  }
 }

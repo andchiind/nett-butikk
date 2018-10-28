@@ -131,5 +131,10 @@ function printStock() {
 
 printStock();
 ?>
+
+<script>
+  // var stock = <?php updateStock();?>;
+</script>
+
 </body>
 </html>

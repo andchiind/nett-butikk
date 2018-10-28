@@ -176,7 +176,12 @@ function updateSubTotal() {
 function updateDeliveryCharge() {
 
   var st = parseFloat(document.getElementById("sub_total").innerHTML);
-  var delivery_charge = st / 10;
+
+  var delivery_charge = 0;
+  if (st < 100) {
+    delivery_charge = st / 10;
+  }
+
   var d = document.getElementById("delivery_charge");
 
   d.innerHTML = delivery_charge.toFixed(2);
@@ -186,10 +191,10 @@ function updateDeliveryCharge() {
 function updateVAT() {
 
   var st = parseFloat(document.getElementById("sub_total").innerHTML);
+  var dc = parseFloat(document.getElementById("delivery_charge").innerHTML);
   var vat = 0;
-  if (st < 100) {
-    vat = st / 5;
-  }
+
+  vat = (st + dc) / 5;
 
   var v = document.getElementById("vat");
 

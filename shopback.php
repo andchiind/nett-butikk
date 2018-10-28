@@ -176,10 +176,10 @@ foreach (array_keys($_POST) as $k) {
         $display = false;
         break;
       case "cc_type":
-      $item = false;
-      if ($item_quantity < 1) {
-        wrongInfo("No items have been selected.");
-      }
+        $item = false;
+        if ($item_quantity < 1) {
+          wrongInfo("No items have been selected.");
+        }
         if ($v == "visa") {
           $card_type = "visa";
         } else {

@@ -4,7 +4,6 @@
  */
 function getStockItemValue(item_id, element) {
 
-  //console.log(item_id.id);
   var i = document.getElementById(item_id);
   var e = i.getElementsByTagName(element)[0];  // assume only 1!
   var v = e.innerHTML;
@@ -37,12 +36,14 @@ function confirmation() {
     let price = items[i].getElementsByTagName("line_cost")[0].innerHTML;
     let name = items[i].getElementsByTagName("item_name")[0].innerHTML;
 
-    if (price != "0.00" && name != "Name") {
+    if (price != "0.00" && name != "Name" && price != undefined) {
 
       let quantityTag = items[i].getElementsByTagName("item_quantity")[0];
-      let quantity = quantityTag.children[0].value;
+      if (quantityTag.children.length > 0) {
+        let quantity = quantityTag.children[0].value;
 
-      newForm += "<p>" + name + ": " + quantity + "<br /> Price: " + price + "</p>";
+        newForm += "<p>" + name + ": " + quantity + "<br /> Price: " + price + "</p>";
+      }
     }
   }
 
@@ -76,7 +77,7 @@ function confirmation() {
 function openReceipt() {
   let form = document.getElementById("form");
   form.onsubmit = "";
-  form.action = "shopback.php";
+  form.action = "shopRedirect.php";
   form.submit();
 }
 
@@ -127,8 +128,8 @@ function updateLineCost(e, item_id) {
 
     setStockItemValue(item_id, "line_cost", c);
     updateSubTotal();
-    updateVAT();
     updateDeliveryCharge();
+    updateVAT();
     updateTotalCost();
   }
 
@@ -139,11 +140,9 @@ function updateStock(q, item_id) {
   var item = document.getElementById(item_id);
   var stock = item.getElementsByTagName("item_stock")[0];
   var totalStock = item.getElementsByTagName("total_stock")[0];
-  console.log(item);
-  console.log(totalStock);
   let newStock = parseFloat(totalStock.innerHTML) - parseFloat(q);
   if (newStock >= 0) {
-    stock.innerHTML = parseFloat(totalStock.innerHTML) - parseFloat(q);
+    stock.innerHTML = newStock;
 
     var input = document.getElementsByName(item_id + "_item_stock")[0];
     input.value = newStock;
@@ -178,7 +177,9 @@ function updateDeliveryCharge() {
   var st = parseFloat(document.getElementById("sub_total").innerHTML);
 
   var delivery_charge = 0;
-  if (st < 100) {
+  if (st == 0 || st < 0) {
+    delivery_charge = 0;
+  } else if (st < 100) {
     delivery_charge = st / 10;
   }
 
@@ -194,7 +195,11 @@ function updateVAT() {
   var dc = parseFloat(document.getElementById("delivery_charge").innerHTML);
   var vat = 0;
 
-  vat = (st + dc) / 5;
+  if (st == 0 || st < 0) {
+    vat = 0;
+  } else {
+    vat = (st + dc) / 5;
+  }
 
   var v = document.getElementById("vat");
 
@@ -227,7 +232,12 @@ function selectInput(input_box) {
   let value = input_box.value;
   if (value == "0") {
     input_box.value = "";
-  } else if (value == "") {
+  }
+}
+
+function unSelectInput(input_box) {
+  let value = input_box.value;
+  if (value == "") {
     input_box.value = "0";
   }
 }

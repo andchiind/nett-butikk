@@ -1,20 +1,53 @@
-
-<!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="utf-8" />
-  <title>Receipt</title>
-</head>
-
-<body>
-
-<h1>Digital Receipt</h1>
-
-<p>
-  <script src="shopfront.js"></script>
+<form id="myForm" action="shopback.php" method="post">
 
 <?php
+
+function updateStock() {
+  global $newStock;
+  define("STOCK_FILE_NAME", "stock.txt");
+  define("STOCK_FILE_LINE_SIZE", 256);
+
+  if (!file_exists(STOCK_FILE_NAME)) {
+    die("File not found for read - " . STOCK_FILE_NAME . "\n");
+  }
+
+  $f = fopen(STOCK_FILE_NAME, "r");
+  $stock_list = [];
+
+  while (($row = fgetcsv($f, STOCK_FILE_LINE_SIZE)) != false) {
+    $stock = $newStock[$row[0]];
+    $stock_item = array(
+      "id" => $row[0], // The photo is ignored since it is identical to "id"
+      "name" => $row[1],
+      "info" => $row[2],
+      "price" => $row[3],
+      "stock" => $stock); // Refresh stock
+    array_push($stock_list, $stock_item);
+  }
+
+  fclose($f);
+  $f = fopen(STOCK_FILE_NAME, "w");
+
+  foreach ($stock_list as $line) {
+    if ($line != null) {
+      fputcsv($f, $line);
+    }
+  }
+  fclose($f);
+}
+
+function updateRecord() {
+  global $record;
+  define("RECORD_FILE_NAME", "orders.txt");
+  define("RECORD_FILE_LINE_SIZE", 256);
+  if (!file_exists(RECORD_FILE_NAME)) {
+    die("File not found for read - " . RECORD_FILE_NAME . "\n");
+  }
+
+  $f = RECORD_FILE_NAME;
+
+  file_put_contents($f, $record, FILE_APPEND);
+}
 
 function getFormInfo($k) {
   return isset($_POST[$k]) ? htmlspecialchars($_POST[$k]) : null;
@@ -25,7 +58,7 @@ function wrongInfo($error) { // This standard for errors makes the program easy 
   echo "The given information is not correct. <br />";
   echo $error."<br /><br />";
   $correct_values = false;
-  echo "<form name=\"order\" action=\"shopfront.php\" method=\"POST\"> <input type=\"submit\" value=\"Return to store\" /> </form>";
+  echo "<form id=\"order\" action=\"shopfront.php\" method=\"POST\"> <input type=\"submit\" value=\"Return to store\" /> </form>";
 }
 
 function testCardNumber($v) {
@@ -72,22 +105,27 @@ function formatNames($name, $v) {
     case "email":
       return "Contact E-mail";
     default:
+      if (strpos($name, "_line_cost") == false && strpos($name, "_item_stock") == false) {
+        $record .= $name.": ".$v.", ";
+      }
       return $name;
   }
 }
 
-$printout = "";
+$record = "Items bought and their quantity: ";
 $correct_values = true;
 $item_quantity = 0;
 $item = true;
 $card_type = "no card type specified";
+$newStock = [];
 foreach (array_keys($_POST) as $k) {
+  global $newStock;
   global $card_type;
   global $item_quantity;
   global $correct_values;
   global $item;
+  global $record;
   $display = true;
-
   if ($correct_values) {
     $v = getFormInfo($k);
     if ($v == "" OR $v == NULL) { // Because the selected quantity cannot be empty in shopfront, this is not a problem
@@ -131,24 +169,15 @@ foreach (array_keys($_POST) as $k) {
     if ($item) {
       $item_quantity += $v;
     }
-    if ($display AND $correct_values AND $v != "" AND $v != NULL AND $v != "0") { //Treat numbers as Strings
+    if ($display AND $correct_values AND $v != "" AND $v != NULL) { //Treat numbers as Strings
 
-      $k = formatNames($k, $v);
-
-      if (substr($k, -strlen("_line_cost")) == "_line_cost") { // Returns false if $k does not contain "line_cost"
-        $k = "Item Cost:";
-        $v = $v." <br />";
-      }
-      if (substr($k, -strlen("_item_stock")) == "_item_stock") { // Returns false if $k does not contain "line_cost"
+      if (substr($k, -strlen("_item_stock")) == "_item_stock") {
+        $k = formatNames($k, $v);
         $k = str_replace("_item_stock", "", $k);
-        continue;
+        $newStock[$k] = $v;
+      } else if ($v != "0") {
+        $k = formatNames($k, $v);
       }
-
-      if ($k == "total") {
-        $v .= "<br />";
-      }
-
-      $printout = $printout."{$k} : {$v}<br />\n";
     }
   }
 }
@@ -157,18 +186,27 @@ if ($correct_values) {
 
   $date = getdate();
   $dateString = $date["mday"].".".$date["mon"].".".$date["year"];
+  $record = "Day: ".$dateString.", ".$record;
 
   $transaction_ID = strtoupper(uniqid());
+  $record = "Transaction ID: ".$transaction_ID.", ".$record;
 
-  echo "Transaction ID: ".$transaction_ID."<br />";
-  echo "Date of transaction: ";
-  echo $dateString."<br /><br />";
-  echo $printout."<br />";
-  echo "<form name=\"order\" action=\"shopfront.php\" method=\"POST\"> <input type=\"submit\" value=\"Return to store\" /> </form>";
+  updateStock();
+
+  $record = substr($record, 0, strlen($record) - 2); // This removes the comma at the end
+  $record .= "\n";
+  updateRecord();
+
+  foreach ($_POST as $a => $b) {
+      echo '<input type="hidden" name="'.htmlentities($a).'" value="'.htmlentities($b).'">';
+  }
+
 }
+
 ?>
-
-</p>
-
-</body>
-</html>
+</form>
+<script type="text/javascript">
+  if (!document.contains(document.getElementById("order"))) {
+    document.getElementById('myForm').submit();
+  }
+</script>

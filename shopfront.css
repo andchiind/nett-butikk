@@ -84,12 +84,8 @@ item_stock {
 .out_of_stock {
   background-color: lightGray;
   border-color: silver;
-  font-size: 12pt;
+  font-size: 20pt;
   text-align: center;
   border-style: none none groove none;
+  font-weight: bold;
 }
-
-/* .button_ {
-  padding-left: 0.5rem;
-  border-spacing: 0.4rem;
-} */

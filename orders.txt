@@ -1,0 +1,17 @@
+Transaction ID: 5BD70B705AB16, Day: 29.10.2018, Items bought and their quantity: gorilla: 
+Transaction ID: 5BD70BABA74F4, Day: 29.10.2018, Items bought and their quantity: gorilla: 1
+Transaction ID: 5BD70C0A5C591, Day: 29.10.2018, Items bought and their quantity: gorilla: 1, ninja: 5
+Transaction ID: 5BD70C3BAA454, Day: 29.10.2018, Items bought and their quantity: gorilla: 1
+Transaction ID: 5BD70C915E287, Day: 29.10.2018, Items bought and their quantity: gorilla: 1, psion: 2
+Transaction ID: 5BD70CE34A934, Day: 29.10.2018, Items bought and their quantity: gorilla: 1, psion: 3
+Transaction ID: 5BD70D3A85192, Day: 29.10.2018, Items bought and their quantity: gorilla: 1, psion: 2
+Transaction ID: 5BD70D94C9619, Day: 29.10.2018, Items bought and their quantity: gorilla: 1, psion: 2
+Transaction ID: 5BD70DC2D68A3, Day: 29.10.2018, Items bought and their quantity: gorilla: 1, psion: 1
+Transaction ID: 5BD70E2BDA12B, Day: 29.10.2018, Items bought and their quantity: gorilla: 1, psion: 1
+Transaction ID: 5BD70E7FC4640, Day: 29.10.2018, Items bought and their quantity: gorilla: 1, psion: 1
+Transaction ID: 5BD70EB1595EA, Day: 29.10.2018, Items bought and their quantity: gorilla: 1, psion: 1
+Transaction ID: 5BD70EEEDD5CF, Day: 29.10.2018, Items bought and their quantity: gorilla: 1, psion: 1
+Transaction ID: 5BD7101DDF78D, Day: 29.10.2018, Items bought and their quantity: crawdad: 1
+Transaction ID: 5BD7102D1A181, Day: 29.10.2018, Items bought and their quantity: crawdad: 1
+Transaction ID: 5BD71193CD836, Day: 29.10.2018, Items bought and their quantity: gorilla: 5, ninja: 1
+Transaction ID: 5BD7119EC7E20, Day: 29.10.2018, Items bought and their quantity: gorilla: 5, ninja: 1

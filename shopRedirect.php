@@ -1,4 +1,4 @@
-<form id="myForm" action="shopback.php" method="post">
+<form id="form" action="shopback.php" method="post">
 
 <?php
 
@@ -112,7 +112,7 @@ function formatNames($name, $v) {
   }
 }
 
-$record = "Items bought and their quantity: ";
+$record = "Item quantity: ";
 $correct_values = true;
 $item_quantity = 0;
 $item = true;
@@ -182,6 +182,7 @@ foreach (array_keys($_POST) as $k) {
   }
 }
 
+// The stock values and the orders.txt files will not be updated if there is a bad input
 if ($correct_values) {
 
   $date = getdate();
@@ -189,12 +190,14 @@ if ($correct_values) {
   $record = "Day: ".$dateString.", ".$record;
 
   $transaction_ID = strtoupper(uniqid());
+  echo "<input type=\"hidden\" name=\"transaction_id\" value=\"$transaction_ID\">";
   $record = "Transaction ID: ".$transaction_ID.", ".$record;
 
   updateStock();
 
   $record = substr($record, 0, strlen($record) - 2); // This removes the comma at the end
   $record .= "\n";
+
   updateRecord();
 
   foreach ($_POST as $a => $b) {
@@ -207,6 +210,6 @@ if ($correct_values) {
 </form>
 <script type="text/javascript">
   if (!document.contains(document.getElementById("order"))) {
-    document.getElementById('myForm').submit();
+    document.getElementById('form').submit();
   }
 </script>

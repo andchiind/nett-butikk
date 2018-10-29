@@ -24,12 +24,14 @@
 
   <hr />
 
+  <form id="form" action="stockRedirect.php" method="post">
+
   <!--CHANGE VARIABLE NAMES!!!!!!!!!!!!-->
 
   <stock_item>
     <item_name class="heading">Name</item_name>
     <item_info class="heading">Description</item_info>
-    <item_quantity class="heading">New Stock</item_quantity>
+    <new_stock class="heading">New Stock</new_stock>
     <item_stock class="heading">Current Stock</item_stock>
   </stock_item>
 
@@ -41,48 +43,15 @@ $newStock = [];
 
 define("STOCK_FILE_NAME", "stock.txt");
 define("STOCK_FILE_LINE_SIZE", 256);
-function updateStock() {
+
+function printStock() {
+  clearstatcache();
   if (!file_exists(STOCK_FILE_NAME)) {
     die("File not found for read - " . STOCK_FILE_NAME . "\n");
   }
   $f = fopen(STOCK_FILE_NAME, "r");
-  $stock_list = [];
-  while (($row = fgetcsv($f, STOCK_FILE_LINE_SIZE)) != false) {
-    $stock = $row[4];
-    if (getStock($row[0]) != false) { //Check if the stock has changed
-      $stock = getStock($row[0]);
-    }
-    $stock_item = array(
-      "id" => $row[0],
-      "name" => $row[1],
-      "info" => $row[2],
-      "price" => $row[3],
-      "stock" => $stock);
-    array_push($stock_list, $stock_item);
-  }
-  fclose($f);
-  $f = fopen(STOCK_FILE_NAME, "w");
-  foreach ($stock_list as $line) {
-    if ($line != null) {
-      fputcsv($f, $line);
-    }
-  }
-  fclose($f);
-  printStock();
-}
-
-function getStock($item) {
-
-}
-
-function printStock() {
-  clearstatcache(); // http://php.net/manual/en/function.clearstatcache.php
-  if (!file_exists(STOCK_FILE_NAME)) {
-    die("File not found for read - " . STOCK_FILE_NAME . "\n"); // Script exits.
-  }
-  $f = fopen(STOCK_FILE_NAME, "r");
   $stock_list = null;
-  print_r($stock_list);
+
   while (($row = fgetcsv($f, STOCK_FILE_LINE_SIZE)) != false) {
     $stock_item = array(
       "id" => $row[0],
@@ -92,7 +61,9 @@ function printStock() {
       "stock" => $row[4]);
     $stock_list[$row[0]] = $stock_item; // Add stock.
   }
+
   fclose($f);
+
   foreach(array_keys($stock_list) as $id) {
     echo "  <stock_item id=\"{$id}\">\n";
     $item = $stock_list[$id];
@@ -107,6 +78,10 @@ function printStock() {
 printStock();
 ?>
 
+<input type="submit" value="Update Stock" />
+
+</form>
+
 <script>
 
 function unSelectInput(input_box, stock) {
@@ -115,9 +90,6 @@ function unSelectInput(input_box, stock) {
   }
 }
 
-function updateStock() {
-  
-}
 </script>
 
 </body>

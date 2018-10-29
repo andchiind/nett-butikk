@@ -69,16 +69,46 @@ item_stock {
   display: table-cell;
 }
 
+new_stock {
+  text-align: center;
+  vertical-align: middle;
+  border-spacing: 0.4rem;
+  padding: 0.5rem;
+  display: table-cell;
+}
+
 .heading {
   background-color: blue;
   color: white;
 }
 
 .stock {
-  /* background-color: silver; */
   border-style: none none groove none;
   border-style: 2px;
   border-color: silver;
+}
+
+.stock_item > * {
+  line-height: 1.7;
+  padding: 0.5rem;
+}
+
+.stock_item {
+  display: list-item;
+  padding: 0.3rem;
+  background-color: Gainsboro;
+}
+
+.list {
+  background-color: Gainsboro;
+}
+
+.odd > * {
+  background-color: Gainsboro;
+}
+
+.even > * {
+  background-color: Silver;
 }
 
 .out_of_stock {

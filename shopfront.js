@@ -47,12 +47,10 @@ function confirmation() {
     }
   }
 
-  //if (document.getElementById("total").innerHTML != UNDEFINED) { !!!!!!!!!!!!!!!!!!
   newForm += "<p>Sub-total: " + document.getElementById("sub_total").innerHTML + "<br />";
   newForm += "Delivery charge: " + document.getElementById("delivery_charge").innerHTML + "<br />";
   newForm += "VAT: " + document.getElementById("vat").innerHTML + "<br />";
   newForm += "Total Cost: " + document.getElementById("total").innerHTML + "</p>";
-  //}
 
   for (let i = 0; i < input.length; i++) {
     let p = input[i].childNodes[0].nodeValue;
@@ -100,7 +98,8 @@ function checkCard() {
   let button = document.getElementById("form_button");
 
   if ((cardNumber.value.substring(0,1) == "4" && cardType == "visa")
-  || (cardNumber.value.substring(0,1) == "5" && cardType == "mastercard")) {
+  || (cardNumber.value.substring(0,1) == "5" && cardType == "mastercard")
+  || cardNumber.value.length == 0) {
     button.disabled = false;
   } else {
     button.disabled = true;

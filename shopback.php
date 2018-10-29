@@ -50,7 +50,7 @@ function testItemQuantity($v) {
   }
 }
 
-function formatNames($name, $v) {
+function formatNames($name) {
   global $record;
   switch ($name) {
     case "sub_total":
@@ -71,6 +71,8 @@ function formatNames($name, $v) {
       return "Delivery Address";
     case "email":
       return "Contact E-mail";
+    case "transaction_id":
+      return "Transaction ID";
     default:
       return $name;
   }
@@ -125,15 +127,17 @@ foreach (array_keys($_POST) as $k) {
       case "delivery_country": // This information is not displayed
         $display = false;
         break;
+      case "transaction_id":
+        $v .="<br />";
       default:
         break;
     }
-    if ($item) {
+    if ($item && substr($k, -strlen("transaction_id")) != "transaction_id") {
       $item_quantity += $v;
     }
     if ($display AND $correct_values AND $v != "" AND $v != NULL AND $v != "0") { //Treat numbers as Strings
 
-      $k = formatNames($k, $v);
+      $k = formatNames($k);
 
       if (substr($k, -strlen("_line_cost")) == "_line_cost") { // Returns false if $k does not contain "line_cost"
         $k = "Item Cost:";
@@ -158,11 +162,11 @@ if ($correct_values) {
   $date = getdate();
   $dateString = $date["mday"].".".$date["mon"].".".$date["year"];
 
-  $transaction_ID = strtoupper(uniqid());
+  //$transaction_ID = strtoupper(uniqid());
 
-  echo "Transaction ID: ".$transaction_ID."<br />";
+  //echo "Transaction ID: ".$transaction_ID."<br />";
   echo "Date of transaction: ";
-  echo $dateString."<br /><br />";
+  echo $dateString."<br />";
   echo $printout."<br />";
   echo "<form name=\"order\" action=\"shopfront.php\" method=\"POST\"> <input type=\"submit\" value=\"Return to store\" /> </form>";
 }

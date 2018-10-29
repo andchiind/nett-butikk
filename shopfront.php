@@ -82,7 +82,7 @@ foreach(array_keys($stock_list) as $id) {
   echo "    <item_stock class=\"out_of_stock\">stock!</item_stock>\n";
   } else {
 
-  echo "    <item_quantity value=\"0\"><input name=\"{$id}\" onclick=\"selectInput(this);\" onblur=\"unSelectInput(this);\" type=\"text\" value=\"0\" pattern=\"[0-9]+\" size=\"3\" onchange=\"updateLineCost(this, '{$id}');\" /></item_quantity>\n";
+  echo "    <item_quantity value=\"0\"><input name=\"{$item["name"]}\" onclick=\"selectInput(this);\" onblur=\"unSelectInput(this);\" type=\"text\" value=\"0\" pattern=\"[0-9]+\" size=\"3\" onchange=\"updateLineCost(this, '{$id}');\" /></item_quantity>\n";
   echo "    <line_cost>0.00</line_cost>\n";
   echo "      <input type=\"hidden\" name=\"{$id}_line_cost\" value=\"0.00\" />\n";
   echo "    <item_stock class=\"stock\">{$item["stock"]}</item_stock>\n"; //This value is changed and displayed
@@ -144,7 +144,7 @@ foreach(array_keys($stock_list) as $id) {
 
 <hr />
 
-<input id="form_button" type="submit" class="button" value="Place Order" />
+<input id="form_button" type="submit" value="Place Order" />
 
 </form_input>
 

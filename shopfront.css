@@ -88,32 +88,24 @@ new_stock {
   border-color: silver;
 }
 
-.stock_item > * {
+.item_row > * {
   line-height: 1.7;
-  padding: 0.5rem;
+  padding: 0.3rem;
   display: table-cell;
 }
 
-.stock_item {
-  display: table-cell;
-  padding: 0.3rem;
-  background-color: Gainsboro;
+.item_row {
+  border-style: none none groove none;
+  border-style: 4px;
+  border-color: white;
+  border-width: medium;
 }
 
 .list {
-  background-color: Gainsboro;
+  /*I was not satisfied with the standard colours, so I described one */
+  background-color: #E3E4ED;
   padding: 0.3rem;
-}
-
-.odd > * {
-  background-color: Gainsboro;
-  padding: 0.3rem;
-  border-spacing: 0.4rem;
-}
-
-.even > * {
-  background-color: Silver;
-  border-spacing: 0.4rem;
+  display: table;
 }
 
 .out_of_stock {

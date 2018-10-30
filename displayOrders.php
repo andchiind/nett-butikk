@@ -21,11 +21,6 @@
 
 <stock_list class="list">
 
-  <stock_item>
-    <transaction_date class="heading">Date</item_name>
-    <transaction_id class="heading">Transaction ID</item_info>
-    <transaction_items class="heading">Item quantities</item_price>
-  </stock_item>
 
 <?php
 
@@ -58,17 +53,9 @@ function printOrders() {
   foreach(array_keys($stock_list) as $id) {
     $item = $stock_list[$id];
 
-    if ($odd) {
-      echo "  <stock_item class=\"odd\" class=\"stock_item\" id=\"{$id}\">\n";
-      $odd = false;
-    } else {
-      echo "  <stock_item class=\"even\" class=\"stock_item\" id=\"{$id}\">\n";
-      $odd = true;
-    }
-
-    echo "  <stock_item class=\"stock_item\" id=\"{$id}\">\n";
-    echo "  <transaction_date>{$item["date"]}, &nbsp;</transaction_date>\n";
-    echo "  <transaction_id>{$item["id"]}, &nbsp;</transaction_id>\n";
+    echo "  <stock_item class=\"item_row\" id=\"{$id}\">\n";
+    echo "  <transaction_date>{$item["date"]} &nbsp;</transaction_date>\n";
+    echo "  <transaction_id>{$item["id"]} &nbsp;</transaction_id>\n";
 
     for ($i = 0; $i < sizeof($item) - 2; $i++) {
       if ($i != sizeof($item) - 3) { //This only adds a comma if it is not the last item

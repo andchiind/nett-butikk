@@ -1,6 +1,7 @@
-Transaction ID: 5BD760CA6C9D0, Day: 29.10.2018, Item quantity: Gorilla: 4
-Transaction ID: 5BD760EAB65EB, Day: 29.10.2018, Item quantity: Crawdad: 2, Gorilla: 5, Psion_5: 3
-Transaction ID: 5BD76120C479B, Day: 29.10.2018, Item quantity: Crawdad: 2, Gorilla: 13, Totem: 2
-Transaction ID: 5BD7613991968, Day: 29.10.2018, Item quantity: Gorilla: 1
-Transaction ID: 5BD766872F0FB, Day: 29.10.2018, Item quantity: Gorilla: 4, Ninja: 3
-Transaction ID: 5BD766C90347B, Day: 29.10.2018, Item quantity: Crawdad: 2
+Transaction ID: 5BD760CA6C9D0, Day: 29.10.2018, Purchases: Gorilla: 4
+Transaction ID: 5BD760EAB65EB, Day: 29.10.2018, Purchases: Crawdad: 2, Gorilla: 5, Psion_5: 3
+Transaction ID: 5BD76120C479B, Day: 29.10.2018, Purchases: Crawdad: 2, Gorilla: 13, Totem: 2
+Transaction ID: 5BD7613991968, Day: 29.10.2018, Purchases: Gorilla: 1
+Transaction ID: 5BD766872F0FB, Day: 29.10.2018, Purchases: Gorilla: 4, Ninja: 3
+Transaction ID: 5BD766C90347B, Day: 29.10.2018, Purchases: Crawdad: 2
+Transaction ID: 5BD8354D369C5, Day: 30.10.2018, Purchases: Totem: 1

@@ -21,6 +21,12 @@
 
 <stock_list class="list">
 
+  <stock_item>
+    <transaction_date class="heading">Date</item_name>
+    <transaction_id class="heading">Transaction ID</item_info>
+    <transaction_items class="heading">Item quantities</item_price>
+  </stock_item>
+
 <?php
 
 define("ORDERS_FILE_NAME", "orders.txt");

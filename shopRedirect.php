@@ -39,10 +39,6 @@ function updateStock() {
 function updateRecord() {
   global $record;
   define("RECORD_FILE_NAME", "orders.txt");
-  define("RECORD_FILE_LINE_SIZE", 256);
-  if (!file_exists(RECORD_FILE_NAME)) {
-    die("File not found for read - " . RECORD_FILE_NAME . "\n");
-  }
 
   $f = RECORD_FILE_NAME;
 
@@ -112,7 +108,7 @@ function formatNames($name, $v) {
   }
 }
 
-$record = "Item quantity: ";
+$record = "Purchases: ";
 $correct_values = true;
 $item_quantity = 0;
 $item = true;

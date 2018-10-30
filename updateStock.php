@@ -3,12 +3,12 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Stock Updates</title>
+  <title>Item Updates</title>
 </head>
 
 <body>
 
-<h1>Update Stock</h1>
+<h1>Update Item details</h1>
 
 <p>
 
@@ -26,11 +26,12 @@
 
   <form id="form" action="stockRedirect.php" method="post">
 
-  <!--CHANGE VARIABLE NAMES!!!!!!!!!!!!-->
+  <stock_list>
 
   <stock_item>
     <item_name class="heading">Name</item_name>
     <item_info class="heading">Description</item_info>
+    <item_price class="heading">Price in pounds</item_price>
     <new_stock class="heading">New Stock</new_stock>
     <item_stock class="heading">Current Stock</item_stock>
   </stock_item>
@@ -67,9 +68,10 @@ function printStock() {
   foreach(array_keys($stock_list) as $id) {
     echo "  <stock_item id=\"{$id}\">\n";
     $item = $stock_list[$id];
-    echo "    <item_name>{$item["name"]}</item_name>\n";
-    echo "    <item_info>{$item["info"]}</item_info>\n";
-    echo "    <new_stock value=\"{$item["stock"]}\"><input name=\"{$id}\" onblur=\"unSelectInput(this, {$item["stock"]});\" type=\"text\" value=\"{$item["stock"]}\" pattern=\"[0-9]+\" size=\"3\" onchange=\"updateStock();\" /></new+stock>\n";
+    echo "    <item_name><input name=\"{$id}_new_name\" onblur=\"unSelectInput(this, {$item["price"]});\" type=\"text\" value=\"{$item["name"]}\" placeholder=\"{$item["name"]}\" size=\"20\" /></item_name>\n";
+    echo "    <item_info><input name=\"{$id}_new_info\" onblur=\"unSelectInput(this, {$item["price"]});\" type=\"text\" value=\"{$item["info"]}\" placeholder=\"{$item["info"]}\" size=\"50\" /></item_info>\n";
+    echo "    <item_price><input name=\"{$id}_new_price\" onblur=\"unSelectInput(this, {$item["price"]});\" type=\"text\" value=\"{$item["price"]}\" placeholder=\"{$item["price"]}\" pattern=\"^[0-9]\d*(\.\d+)?$\" size=\"5\" /></item_price>\n";
+    echo "    <new_stock><input name=\"{$id}_new_stock\" onblur=\"unSelectInput(this, {$item["stock"]});\" type=\"text\" value=\"{$item["stock"]}\" placeholder=\"{$item["stock"]}\" pattern=\"[0-9]+\" size=\"3\" /></new_stock>\n";
     echo "    <item_stock class=\"stock\">{$item["stock"]}</item_stock>\n"; //This value is changed and displayed
     echo "      <total_stock style=\"display:none\">{$item["stock"]}</item_stock>\n"; //This stores the total stock
     echo "  </stock_item>\n\n";
@@ -77,6 +79,8 @@ function printStock() {
 }
 printStock();
 ?>
+
+</stock_list>
 
 <input type="submit" value="Update Stock" />
 

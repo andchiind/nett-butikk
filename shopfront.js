@@ -29,47 +29,57 @@ function confirmation() {
 
   inputs.style.display = "none";
 
-  let newForm = "<h2>Are you sure that the following information is correct?</h2>";
+  let newForm = "";
 
-  for (let i = 0; i < items.length; i++) {
+  if (document.getElementById("total").innerHTML > 0) {
 
-    let price = items[i].getElementsByTagName("line_cost")[0].innerHTML;
-    let name = items[i].getElementsByTagName("item_name")[0].innerHTML;
+    newForm = "<h2>Are you sure that the following information is correct?</h2>";
 
-    if (price != "0.00" && name != "Name" && price != undefined) {
+    for (let i = 0; i < items.length; i++) {
 
-      let quantityTag = items[i].getElementsByTagName("item_quantity")[0];
-      if (quantityTag.children.length > 0) {
-        let quantity = quantityTag.children[0].value;
+      let price = items[i].getElementsByTagName("line_cost")[0].innerHTML;
+      let name = items[i].getElementsByTagName("item_name")[0].innerHTML;
 
-        newForm += "<p>" + name + ": " + quantity + "<br /> Price: " + price + "</p>";
+      if (price != "0.00" && name != "Name" && price != undefined) {
+
+        let quantityTag = items[i].getElementsByTagName("item_quantity")[0];
+        if (quantityTag.children.length > 0) {
+          let quantity = quantityTag.children[0].value;
+
+          newForm += "<p>" + name + ": " + quantity + "<br /> Price: " + price + "</p>";
+        }
       }
     }
-  }
 
-  newForm += "<p>Sub-total: " + document.getElementById("sub_total").innerHTML + "<br />";
-  newForm += "Delivery charge: " + document.getElementById("delivery_charge").innerHTML + "<br />";
-  newForm += "VAT: " + document.getElementById("vat").innerHTML + "<br />";
-  newForm += "Total Cost: " + document.getElementById("total").innerHTML + "</p>";
+    newForm += "<p>Sub-total: " + document.getElementById("sub_total").innerHTML + "<br />";
+    newForm += "Delivery charge: " + document.getElementById("delivery_charge").innerHTML + "<br />";
+    newForm += "VAT: " + document.getElementById("vat").innerHTML + "<br />";
+    newForm += "Total Cost: " + document.getElementById("total").innerHTML + "</p>";
 
-  for (let i = 0; i < input.length; i++) {
-    let p = input[i].childNodes[0].nodeValue;
-    let inputContent = "";
-    if (input[i].children[0].tagName == "select") {
-      inputContent = input[i].children[0].options[children[0].selectedIndex].value;
-    } else {
-      inputContent = input[i].children[0].value;
+    for (let i = 0; i < input.length; i++) {
+      let p = input[i].childNodes[0].nodeValue;
+      let inputContent = "";
+      if (input[i].children[0].tagName == "select") {
+        inputContent = input[i].children[0].options[children[0].selectedIndex].value;
+      } else {
+        inputContent = input[i].children[0].value;
+      }
+      newForm += p + " " + inputContent + "<br />";
     }
-    newForm += p + " " + inputContent + "<br />";
+
+    newForm += "<br />";
+
+    newForm += "<input type=\"submit\" value=\"Confirm\" onclick=\"openReceipt();\" class=\"button\" />";
+    newForm += "<input type=\"button\" value=\"Cancel\" onclick=\"returnToShop();\" class=\"button\" />";
+
+  } else {
+    newForm += "It seems that you have not selected any items. <br /> Please do so before moving on. <br /><br />"
+    newForm += "<input type=\"button\" value=\"Cancel\" onclick=\"returnToShop();\" class=\"button\" />";
   }
-
-  newForm += "<br />";
-
-  newForm += "<input type=\"submit\" value=\"Confirm\" onclick=\"openReceipt();\" class=\"button\" />";
-  newForm += "<input type=\"button\" value=\"Cancel\" onclick=\"returnToShop();\" class=\"button\" />";
 
   document.getElementById("confirm").innerHTML = newForm;
   document.getElementById("confirm").style.display = "block";
+
 }
 
 function openReceipt() {

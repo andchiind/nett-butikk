@@ -91,24 +91,29 @@ new_stock {
 .stock_item > * {
   line-height: 1.7;
   padding: 0.5rem;
+  display: table-cell;
 }
 
 .stock_item {
-  display: list-item;
+  display: table-cell;
   padding: 0.3rem;
   background-color: Gainsboro;
 }
 
 .list {
   background-color: Gainsboro;
+  padding: 0.3rem;
 }
 
 .odd > * {
   background-color: Gainsboro;
+  padding: 0.3rem;
+  border-spacing: 0.4rem;
 }
 
 .even > * {
   background-color: Silver;
+  border-spacing: 0.4rem;
 }
 
 .out_of_stock {

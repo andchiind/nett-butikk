@@ -1,5 +1,5 @@
 <?php
-clearstatcache(); // http://php.net/manual/en/function.clearstatcache.php
+clearstatcache();
 define("STOCK_FILE_NAME", "stock.txt"); // Local file - insecure!
 define("STOCK_FILE_LINE_SIZE", 256); // 256 line length should enough.
 define("PHOTO_DIR", "piks/large/"); // large photo, local files, insecure!
@@ -76,19 +76,18 @@ foreach(array_keys($stock_list) as $id) {
   echo "    <item_info>{$item["info"]}</item_info>\n";
   echo "    <item_price>{$item["price"]}</item_price>\n";
 
-  if ($item["stock"] == "0") {
+  if ($item["stock"] == "0") { // A special message is printed if the stock value is zero
   echo "    <item_quantity class=\"out_of_stock\">Out</item_quantity>\n";
   echo "    <line_cost class=\"out_of_stock\">of</line_cost>\n";
   echo "    <item_stock class=\"out_of_stock\">stock!</item_stock>\n";
   } else {
-
   echo "    <item_quantity value=\"0\"><input name=\"{$item["name"]}\" onclick=\"selectInput(this);\" onblur=\"unSelectInput(this);\" type=\"text\" value=\"0\" pattern=\"[0-9]+\" size=\"3\" onchange=\"updateLineCost(this, '{$id}');\" /></item_quantity>\n";
   echo "    <line_cost>0.00</line_cost>\n";
   echo "      <input type=\"hidden\" name=\"{$id}_line_cost\" value=\"0.00\" />\n";
   echo "    <item_stock class=\"stock\">{$item["stock"]}</item_stock>\n"; //This value is changed and displayed
   }
 
-  echo "      <input type=\"hidden\" name=\"{$id}_item_stock\" value=\"{$item["stock"]}\" />";
+  echo "      <input type=\"hidden\" name=\"{$id}_item_stock\" value=\"{$item["stock"]}\" />"; //This hidden input is sent with the form
   echo "      <total_stock style=\"display:none\">{$item["stock"]}</item_stock>\n"; //This stores the total stock
   echo "  </stock_item>\n\n";
 }
@@ -97,6 +96,8 @@ foreach(array_keys($stock_list) as $id) {
 </stock_list>
 
 <br />
+
+<!-- The hidden input tags store the values and send them with the form, when the purchase is confirmed -->
 
 <p>Sub-total: <span id="sub_total"></span></p>
 <input type="hidden" name="sub_total" value="0.00" />
@@ -150,6 +151,7 @@ foreach(array_keys($stock_list) as $id) {
 
 </form>
 
+<!-- This tag is used to display the confirmation information -->
 <div id="confirm"></div>
 
 <hr />

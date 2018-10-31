@@ -65,16 +65,16 @@ function printStock() {
 
   fclose($f);
 
+  //This prints out the input boxes and initialises them with the current values
   foreach(array_keys($stock_list) as $id) {
-    echo "  <stock_item id=\"{$id}\">\n";
     $item = $stock_list[$id];
+    echo "  <stock_item id=\"{$id}\">\n";
     echo "    <item_name><input name=\"{$id}_new_name\" onblur=\"unSelectInput(this, {$item["name"]});\" type=\"text\" value=\"{$item["name"]}\" placeholder=\"{$item["name"]}\" size=\"20\" /></item_name>\n";
     echo "    <item_info><input name=\"{$id}_new_info\" onblur=\"unSelectInput(this, {$item["info"]});\" type=\"text\" value=\"{$item["info"]}\" placeholder=\"{$item["info"]}\" size=\"50\" /></item_info>\n";
     echo "    <item_price><input name=\"{$id}_new_price\" onblur=\"unSelectInput(this, {$item["price"]});\" type=\"text\" value=\"{$item["price"]}\" placeholder=\"{$item["price"]}\" pattern=\"^[0-9]\d*(\.\d+)?$\" size=\"5\" /></item_price>\n";
     echo "    <new_stock><input name=\"{$id}_new_stock\" onblur=\"unSelectInput(this, {$item["stock"]});\" type=\"text\" value=\"{$item["stock"]}\" placeholder=\"{$item["stock"]}\" pattern=\"[0-9]+\" size=\"3\" /></new_stock>\n";
     echo "    <item_stock class=\"stock\">{$item["stock"]}</item_stock>\n"; //This value is changed and displayed
     echo "      <total_stock style=\"display:none\">{$item["stock"]}</item_stock>\n"; //This stores the total stock
-    // echo "    <input value=\"Delete\" type=\"button\" onclick=\"deleteItem({$id})/>\n";
     echo "  </stock_item>\n\n";
   }
 }
@@ -91,17 +91,15 @@ printStock();
 
 <script>
 
+/*
+* If the input box is empty, the value will be changed to the current value
+* of the item when unselected
+*/
 function unSelectInput(input_box, value) {
   if (input_box.value == "" || input_box.value < 0) {
     input_box.value = value;
   }
 }
-
-// function deleteItem(id) {
-//   let item = document.getElementById(id);
-//   item.style.display = "none";
-//   item
-// }
 
 </script>
 

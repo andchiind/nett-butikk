@@ -1,7 +1,18 @@
-<form id="form" action="shopback.php" method="post">
+<!DOCTYPE html>
+<html>
+
+  <body>
+
+    <h1>Error</h1>
+
+  <form id="form" action="shopback.php" method="post">
 
 <?php
 
+/*
+* Here, the stock.txt file is updated by decreasing the stock with
+* the quantity of items bought.
+*/
 function updateStock() {
   global $newStock;
   define("STOCK_FILE_NAME", "stock.txt");
@@ -26,7 +37,7 @@ function updateStock() {
   }
 
   fclose($f);
-  $f = fopen(STOCK_FILE_NAME, "w");
+  $f = fopen(STOCK_FILE_NAME, "w"); // This empties the file
 
   foreach ($stock_list as $line) {
     if ($line != null) {
@@ -36,6 +47,9 @@ function updateStock() {
   fclose($f);
 }
 
+/*
+* The orders.txt file is updated with the new transaction.
+*/
 function updateRecord() {
   global $record;
   define("RECORD_FILE_NAME", "orders.txt");
@@ -49,14 +63,23 @@ function getFormInfo($k) {
   return isset($_POST[$k]) ? htmlspecialchars($_POST[$k]) : null;
 }
 
-function wrongInfo($error) { // This standard for errors makes the program easy to expand
+/*
+* This standard for errors makes the program easy to expand.
+*/
+function wrongInfo($error) {
   global $correct_values;
+  echo "<p>";
   echo "The given information is not correct. <br />";
   echo $error."<br /><br />";
+  echo "</p>";
   $correct_values = false;
+  echo "<error id=\"error\"></error>";
   echo "<form id=\"order\" action=\"shopfront.php\" method=\"POST\"> <input type=\"submit\" value=\"Return to store\" /> </form>";
 }
 
+/*
+* Tests that mastercards start with 5, and visas start with 4
+*/
 function testCardNumber($v) {
   global $card_type;
   $first_char = substr($v, 0, 1);
@@ -67,39 +90,52 @@ function testCardNumber($v) {
   }
 }
 
+/*
+* Tests that the security code is three digits and positive
+*/
 function testSecurityCode($v) {
   if (strlen($v) != 3 OR $v < 0) {
     wrongInfo("A security code should be three digits and positive.");
   }
 }
 
+/*
+* Tests that there is a positive number of item
+*/
 function testItemQuantity($v) {
-  if ($v < 1 OR strpos($v, ".") !== true) { //Check use of double ==. !!!!!!!!!!!
+  if ($v < 1 OR strpos($v, ".") !== true) {
     wrongInfo("The quantity of items selected should be a positive integer.");
   }
 }
-
+/*
+* This method is used in order to find line cost, total cost and email values.
+* The switch statement removes the other possibilites when finding the line cost.
+*/
 function formatNames($name, $v) {
   global $record;
+  global $total_cost_record;
+  global $email_record;
   switch ($name) {
     case "sub_total":
-        return "Sub Total";
+        return;
     case "delivery_charge":
-      return "Delivery Charge";
+      return;
     case "vat":
-      return "VAT";
+      return;
     case "total":
-      return "Total Cost";
+    $total_cost_record .= "Total Cost: ".$v;
+      return;
     case "cc_type":
-      return "Card Type";
+      return;
     case "cc_number":
-      return "Card Number";
+      return;
     case "cc_name":
-      return "Name on the Card";
+      return;
     case "delivery_address":
-      return "Delivery Address";
+      return;
     case "email":
-      return "Contact E-mail";
+    $email_record .= "E-mail: ".$v;
+      return;
     default:
       if (strpos($name, "_line_cost") == false && strpos($name, "_item_stock") == false) {
         $record .= $name.": ".$v.", ";
@@ -114,6 +150,13 @@ $item_quantity = 0;
 $item = true;
 $card_type = "no card type specified";
 $newStock = [];
+$total_cost_record = "";
+$email_record = "";
+
+if (empty($_POST)) {
+  wrongInfo("No values given.");
+}
+
 foreach (array_keys($_POST) as $k) {
   global $newStock;
   global $card_type;
@@ -121,7 +164,7 @@ foreach (array_keys($_POST) as $k) {
   global $correct_values;
   global $item;
   global $record;
-  $display = true;
+  $display = true; // If this value is false, the value is not printed
   if ($correct_values) {
     $v = getFormInfo($k);
     if ($v == "" OR $v == NULL) { // Because the selected quantity cannot be empty in shopfront, this is not a problem
@@ -131,9 +174,6 @@ foreach (array_keys($_POST) as $k) {
     switch ($k) {
       case "cc_number":
         testCardNumber($v);
-        $beginning = substr($v, 0, 2);
-        $ending = substr($v, strlen($v) - 2, strlen($v) - 1);
-        $v = $beginning."************".$ending; //Hides parts of card number
         break;
       case "cc_code":
         testSecurityCode($v);
@@ -170,7 +210,7 @@ foreach (array_keys($_POST) as $k) {
       if (substr($k, -strlen("_item_stock")) == "_item_stock") {
         $k = formatNames($k, $v);
         $k = str_replace("_item_stock", "", $k);
-        $newStock[$k] = $v;
+        $newStock[$k] = $v; // Here the new stock of an item is stored
       } else if ($v != "0") {
         $k = formatNames($k, $v);
       }
@@ -181,12 +221,16 @@ foreach (array_keys($_POST) as $k) {
 // The stock values and the orders.txt files will not be updated if there is a bad input
 if ($correct_values) {
 
+  $record = $total_cost_record.", ".$record;
+  $record = $email_record.", ".$record;
+
   $date = getdate();
   $dateString = $date["mday"].".".$date["mon"].".".$date["year"];
   $record = "Day: ".$dateString.", ".$record;
 
   $transaction_ID = strtoupper(uniqid());
   echo "<input type=\"hidden\" name=\"transaction_id\" value=\"$transaction_ID\">";
+  //The ID is created on this page, in order to make sure it does not update when the receipt page is refreshed
   $record = "Transaction ID: ".$transaction_ID.", ".$record;
 
   updateStock();
@@ -196,16 +240,21 @@ if ($correct_values) {
 
   updateRecord();
 
-  foreach ($_POST as $a => $b) {
-      echo '<input type="hidden" name="'.htmlentities($a).'" value="'.htmlentities($b).'">';
+  // The post values are reused in the new form which is submitted
+  foreach ($_POST as $k => $v) {
+      echo '<input type="hidden" name="'.htmlentities($k).'" value="'.htmlentities($v).'">';
   }
-
 }
 
 ?>
 </form>
 <script type="text/javascript">
-  if (!document.contains(document.getElementById("order"))) {
+  //Once the files have been updated, the form submits and the user is redirected to the receipt page
+  if (!document.contains(document.getElementById("error"))) { // Will not submit if tests failed
     document.getElementById('form').submit();
   }
 </script>
+
+</body>
+
+</html>

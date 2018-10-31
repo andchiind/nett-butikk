@@ -1,7 +1,9 @@
-Transaction ID: 5BD760CA6C9D0, Day: 29.10.2018, Purchases: Gorilla: 4
-Transaction ID: 5BD760EAB65EB, Day: 29.10.2018, Purchases: Crawdad: 2, Gorilla: 5, Psion_5: 3
-Transaction ID: 5BD76120C479B, Day: 29.10.2018, Purchases: Crawdad: 2, Gorilla: 13, Totem: 2
-Transaction ID: 5BD7613991968, Day: 29.10.2018, Purchases: Gorilla: 1
-Transaction ID: 5BD766872F0FB, Day: 29.10.2018, Purchases: Gorilla: 4, Ninja: 3
-Transaction ID: 5BD766C90347B, Day: 29.10.2018, Purchases: Crawdad: 2
-Transaction ID: 5BD8354D369C5, Day: 30.10.2018, Purchases: Totem: 1
+Transaction ID: 5BD9AFD6A69DD, Day: 31.10.2018, E-mail: anders@anders.no, Total Cost: 5.94, Purchases: Crawdad: 1
+Transaction ID: 5BD9AFF01E14D, Day: 31.10.2018, E-mail: anders@anders.no, Total Cost: 360.00, Purchases: Totem: 2
+Transaction ID: 5BD9B006DB20F, Day: 31.10.2018, E-mail: anders@anders.no, Total Cost: 360.00, Purchases: Totem: 2
+Transaction ID: 5BD9B027EC2C6, Day: 31.10.2018, E-mail: anders@anders.no, Total Cost: 1101.60, Purchases: Crawdad: 4, Ninja: 2, Psion_5: 1, Totem: 5
+Transaction ID: 5BD9B12416BA8, Day: 31.10.2018, E-mail: please.give@good.mark, Total Cost: 730.80, Purchases: Crawdad: 2, Ninja: 6, Totem: 4
+Transaction ID: 5BD9C1475D8F7, Day: 31.10.2018, E-mail: please.give@good.mark, Total Cost: 33.66, Purchases: I_would: 1, be_so: 1, happy!: 1
+Transaction ID: 5BD9DA88A78E7, Day: 31.10.2018, E-mail: anders@anders.no, Total Cost: 11.88, Purchases: Crawdad: 2
+Transaction ID: 5BD9DAB573A5A, Day: 31.10.2018, E-mail: anders@anders.no, Total Cost: 38.94, Purchases: Crawdad: 1, Ninja: 2
+Transaction ID: 5BD9DB0447CC6, Day: 31.10.2018, E-mail: aci2@st-andrews.ac.uk, Total Cost: 950.40, Purchases: Crawdad: 1, Ninja: 3, Totem: 5

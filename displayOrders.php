@@ -27,6 +27,9 @@
 define("ORDERS_FILE_NAME", "orders.txt");
 define("ORDERS_FILE_LINE_SIZE", 256);
 
+/*
+* This function prints out and displays the values in the orders.txt file.
+*/
 function printOrders() {
   clearstatcache();
   if (!file_exists(ORDERS_FILE_NAME)) {
@@ -49,7 +52,6 @@ function printOrders() {
 
   fclose($f);
 
-  $odd = true;
   foreach(array_keys($stock_list) as $id) {
     $item = $stock_list[$id];
 
@@ -57,6 +59,7 @@ function printOrders() {
     echo "  <transaction_date>{$item["date"]} &nbsp;</transaction_date>\n";
     echo "  <transaction_id>{$item["id"]} &nbsp;</transaction_id>\n";
 
+    //Because we do not know the amount of different items bought, we use a for loop
     for ($i = 0; $i < sizeof($item) - 2; $i++) {
       if ($i != sizeof($item) - 3) { //This only adds a comma if it is not the last item
         echo "  <item_{$i}>{$item[$i]},</item_{$i}>\n";
@@ -66,7 +69,6 @@ function printOrders() {
     }
     echo "  </stock_item>\n";
   }
-
 }
 
 printOrders();

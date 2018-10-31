@@ -21,6 +21,11 @@ function setStockItemValue(item_id, element, value) {
   e.innerHTML = value;
 }
 
+/*
+ * This function hides the form and prints out the confirmation details, as well
+ * as two buttons which allows the user to confirm the purchase or go back to edit
+ * the transaction details.
+ */
 function confirmation() {
 
   let inputs = document.getElementById("formInput");
@@ -82,6 +87,9 @@ function confirmation() {
 
 }
 
+/*
+ * Submits the information in the form to the shopRedirect.php file.
+ */
 function openReceipt() {
   let form = document.getElementById("form");
   form.onsubmit = "";
@@ -89,6 +97,9 @@ function openReceipt() {
   form.submit();
 }
 
+/*
+ * Hides the confirmation information and un-hides the form.
+ */
 function returnToShop() {
   let confirmInfo = document.getElementById("confirm");
   confirmInfo.innerHTML = "";
@@ -101,6 +112,11 @@ function returnToShop() {
   inputs.style.display = "block";
 }
 
+/*
+ * This function checks that the card number start with the correct number
+ * corresponding with the card type. If the card number is wrong, an alert is
+ * given and the confirm buttong is disabled.
+ */
 function checkCard() {
   let cardNumber = document.getElementsByName("cc_number")[0];
   let cardTypeSelect = document.getElementsByName("cc_type")[0];
@@ -144,6 +160,12 @@ function updateLineCost(e, item_id) {
 
 }
 
+/*
+ * Updates the stock value of the hidden input tag being submitted. If the
+ * quantity selected is too high an alert is sent and the function returns false.
+ * q: number (item quantity)
+ * item_id: string (id of given item)
+ */
 function updateStock(q, item_id) {
 
   var item = document.getElementById(item_id);
@@ -162,6 +184,10 @@ function updateStock(q, item_id) {
   }
 }
 
+/*
+ * Updates the sub-total value that is displayed, as well as the value of the
+ * hidden input tag which is submitted.
+ */
 function updateSubTotal() {
 
   var s = parseFloat(document.getElementById("sub_total").innerHTML);
@@ -181,6 +207,10 @@ function updateSubTotal() {
   updateHiddenInput(st);
 }
 
+/*
+ * Updates the delivery-charge value that is displayed, as well as the value of the
+ * hidden input tag which is submitted.
+ */
 function updateDeliveryCharge() {
 
   var st = parseFloat(document.getElementById("sub_total").innerHTML);
@@ -188,7 +218,7 @@ function updateDeliveryCharge() {
   var delivery_charge = 0;
   if (st == 0 || st < 0) {
     delivery_charge = 0;
-  } else if (st < 100) {
+  } else if (st < 100) { //The delivery is free if the sub-total is greater than 100
     delivery_charge = st / 10;
   }
 
@@ -198,6 +228,10 @@ function updateDeliveryCharge() {
   updateHiddenInput(d);
 }
 
+/*
+ * Updates the VAT value that is displayed, as well as the value of the
+ * hidden input tag which is submitted.
+ */
 function updateVAT() {
 
   var st = parseFloat(document.getElementById("sub_total").innerHTML);
@@ -216,6 +250,10 @@ function updateVAT() {
   updateHiddenInput(v);
 }
 
+/*
+ * Updates the total value that is displayed, as well as the value of the
+ * hidden input tag which is submitted.
+ */
 function updateTotalCost() {
 
   var st = parseFloat(document.getElementById("sub_total").innerHTML);
@@ -231,12 +269,20 @@ function updateTotalCost() {
   updateHiddenInput(t);
 }
 
+/*
+ * Updates the value of the hidden input tag which is submitted, correpsonding
+ * with the given element.
+ * this_id: DOM element (element which is being updated)
+ */
 function updateHiddenInput(this_id) {
   let value = this_id.innerHTML;
   let input = document.getElementsByName(this_id.id)[0];
   input.value = value;
 }
 
+/*
+ * If the value in the input box is zero, it is cleared when the user selects it.
+ */
 function selectInput(input_box) {
   let value = input_box.value;
   if (value == "0") {
@@ -244,6 +290,9 @@ function selectInput(input_box) {
   }
 }
 
+/*
+ * If the input box is empty, it is assigned to 0 when the user un-selects it.
+ */
 function unSelectInput(input_box) {
   let value = input_box.value;
   if (value == "") {
